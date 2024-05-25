@@ -7,9 +7,9 @@ import java.util.List;
 
 public class BarabasiAlbert<V, E> {
 
-    public UndirectedSparseGraph<V, E> generateBA(int n, int m0, int p, int m) {
+    public UndirectedSparseGraph<V, E> generateBA(int n, int m0, int p, int m, Class<V> vClass, Class<E> eClass) {
         ErdosRenyi<V, E> er = new ErdosRenyi<>();
-        UndirectedSparseGraph<V, E> graph = er.generateER(m0, p);
+        UndirectedSparseGraph<V, E> graph = er.generateER(m0, p, vClass, eClass);
 
         List<Integer> degs = new ArrayList<>();
         int ix = 0;
