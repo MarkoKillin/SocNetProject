@@ -2,9 +2,11 @@ package modelgen;
 
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unchecked")
 public class BarabasiAlbert<V, E> {
 
     public UndirectedSparseGraph<V, E> generateBA(int n, int m0, int p, int m, Class<V> vClass, Class<E> eClass) {
@@ -19,15 +21,25 @@ public class BarabasiAlbert<V, E> {
             }
             ix++;
         }
-
         for (int i = m0; i < n; i++) {
-            //graph.addVertex(i);
+            try {
+                V vertex = vClass.getDeclaredConstructor().newInstance();
+                graph.addVertex(vertex);
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Class V must contain constructor!");
+            }
+            Object[] vertices = graph.getVertices().toArray();
             for (int j = 0; j < m; j++) {
                 int old = (int) (Math.random() * degs.size());
-                //graph.addEdge(i, old);
+                try {
+                    E edge = eClass.getDeclaredConstructor().newInstance();
+                    graph.addEdge(edge, (V) vertices[i], (V) vertices[old]);
+                } catch (Exception e) {
+                    throw new IllegalArgumentException("Class E must contain constructor!");
+                }
                 degs.add(old);
             }
-            for(int j = 0; j < m; j++) {
+            for (int j = 0; j < m; j++) {
                 degs.add(i);
             }
         }

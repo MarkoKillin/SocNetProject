@@ -7,7 +7,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.Random;
 import java.util.function.Supplier;
 
-@SuppressWarnings("CallToPrintStackTrace")
+@SuppressWarnings({"unchecked"})
 public class ErdosRenyi<V, E> {
 
     public UndirectedSparseGraph<V, E> generateER(int n, double p, Class<V> vClass, Class<E> eClass) {
@@ -17,8 +17,7 @@ public class ErdosRenyi<V, E> {
                 V v = vClass.getDeclaredConstructor().newInstance();
                 graph.addVertex(v);
             }
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException |
-                 InvocationTargetException e) {
+        } catch (Exception e) {
             throw new IllegalArgumentException("Class V must contain constructor!");
         }
         Object[] vertices = graph.getVertices().toArray();
@@ -29,8 +28,7 @@ public class ErdosRenyi<V, E> {
                         E edge = eClass.getDeclaredConstructor().newInstance();
                         graph.addEdge(edge, (V) vertices[i], (V) vertices[j]);
                     } catch (Exception e) {
-                        e.printStackTrace();
-                        throw new RuntimeException("Failed to create edge instance", e);
+                        throw new IllegalArgumentException("Class E must contain constructor!");
                     }
                 }
             }
