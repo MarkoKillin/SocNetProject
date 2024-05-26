@@ -17,7 +17,24 @@ public class CustomGraph {
             graph.addVertex(v);
             vertexList.add(v);
         }
-        //draw graphs in gephy and test shell
+        graph.addEdge(new Edge(), vertexList.get(0), vertexList.get(1));
+        graph.addEdge(new Edge(), vertexList.get(0), vertexList.get(9));
+        graph.addEdge(new Edge(), vertexList.get(0), vertexList.get(12));
+        graph.addEdge(new Edge(), vertexList.get(0), vertexList.get(14));
+        graph.addEdge(new Edge(), vertexList.get(1), vertexList.get(4));
+        graph.addEdge(new Edge(), vertexList.get(1), vertexList.get(8));
+        graph.addEdge(new Edge(), vertexList.get(2), vertexList.get(6));
+        graph.addEdge(new Edge(), vertexList.get(2), vertexList.get(11));
+        graph.addEdge(new Edge(), vertexList.get(3), vertexList.get(7));
+        graph.addEdge(new Edge(), vertexList.get(4), vertexList.get(9));
+        graph.addEdge(new Edge(), vertexList.get(4), vertexList.get(5));
+        graph.addEdge(new Edge(), vertexList.get(5), vertexList.get(8));
+        graph.addEdge(new Edge(), vertexList.get(5), vertexList.get(7));
+        graph.addEdge(new Edge(), vertexList.get(8), vertexList.get(9));
+        graph.addEdge(new Edge(), vertexList.get(9), vertexList.get(11));
+        graph.addEdge(new Edge(), vertexList.get(10), vertexList.get(13));
+        graph.addEdge(new Edge(), vertexList.get(11), vertexList.get(12));
+        graph.addEdge(new Edge(), vertexList.get(12), vertexList.get(13));
         return graph;
     }
 
