@@ -1,6 +1,7 @@
 package modelgen;
 
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
+import edu.uci.ics.jung.graph.util.EdgeType;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class BarabasiAlbert<V, E> {
                 int old = (int) (Math.random() * degs.size());
                 try {
                     E edge = eClass.getDeclaredConstructor().newInstance();
-                    graph.addEdge(edge, (V) vertices[i], (V) vertices[old]);
+                    graph.addEdge(edge, (V) vertices[i], (V) vertices[old], EdgeType.UNDIRECTED);
                 } catch (Exception e) {
                     throw new IllegalArgumentException("Class E must contain constructor!");
                 }
