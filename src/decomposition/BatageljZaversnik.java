@@ -1,5 +1,6 @@
 package decomposition;
 
+import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
 
@@ -8,23 +9,21 @@ import java.util.stream.Collectors;
 
 
 public class BatageljZaversnik<V, E> {
-    UndirectedSparseGraph<V, E> graph;
+    private UndirectedSparseGraph<V, E> graph;
 
     public BatageljZaversnik(UndirectedSparseGraph<V, E> graph) {
-        if (graph.getVertexCount() == 0)
+        if (graph == null || graph.getVertexCount() == 0)
             throw new IllegalArgumentException("Graph must contain at least 1 node!");
         this.graph = graph;
     }
 
     public Map<V, Integer> decompose() {
-        //S
         Map<V, Integer> indices = new HashMap<>();
-        //m
         int maxDegree = graph.getVertices().parallelStream()
                 .mapToInt(graph::degree)
                 .max()
                 .orElse(0);
-        //D
+
         ArrayList<Set<V>> boxes = new ArrayList<>(maxDegree + 1);
         for (int i = 0; i <= maxDegree; i++) {
             boxes.add(new HashSet<>());
