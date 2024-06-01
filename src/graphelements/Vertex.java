@@ -7,4 +7,11 @@ public class Vertex {
     public Vertex(int idVertex) {
         this.idVertex = idVertex;
     }
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Vertex v) {
+            return this.idVertex == v.idVertex;
+        }
+        return false;
+    }
 }
