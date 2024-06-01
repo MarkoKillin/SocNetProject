@@ -2,9 +2,9 @@ package graphelements;
 
 public class Vertex {
 
-    public String labelVertex;
+    public int idVertex;
 
-    public Vertex(String labelVertex) {
-        this.labelVertex = labelVertex;
+    public Vertex(int idVertex) {
+        this.idVertex = idVertex;
     }
 }

@@ -14,7 +14,7 @@ public class CustomGraph {
         UndirectedSparseGraph<Vertex, Edge> graph = new UndirectedSparseGraph<>();
         List<Vertex> vertexList = new ArrayList<>();
         for (int i = 0; i < 15; i++) {
-            Vertex v = new Vertex(Integer.toString(i));
+            Vertex v = new Vertex(i);
             graph.addVertex(v);
             vertexList.add(v);
         }
@@ -43,7 +43,7 @@ public class CustomGraph {
         UndirectedSparseGraph<Vertex, Edge> graph = new UndirectedSparseGraph<>();
         List<Vertex> vertexList = new ArrayList<>();
         for (int i = 0; i < 17; i++) {
-            Vertex v = new Vertex(Integer.toString(i));
+            Vertex v = new Vertex(i);
             graph.addVertex(v);
             vertexList.add(v);
         }
@@ -80,7 +80,7 @@ public class CustomGraph {
         UndirectedSparseGraph<Vertex, Edge> graph = new UndirectedSparseGraph<>();
         List<Vertex> vertexList = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            Vertex v = new Vertex(Integer.toString(i));
+            Vertex v = new Vertex(i);
             graph.addVertex(v);
             vertexList.add(v);
         }

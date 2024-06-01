@@ -1,14 +1,14 @@
 package graphelements;
 
 public class Edge {
+    private static int count = 0;
+    public int idEdge;
 
-    public String labelEdge;
-
-    public Edge(String labelEdge) {
-        this.labelEdge = labelEdge;
+    public Edge(int idEdge) {
+        this.idEdge = idEdge;
     }
 
     public Edge() {
-        this("");
+        this(count++);
     }
 }
