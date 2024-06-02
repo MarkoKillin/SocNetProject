@@ -14,22 +14,22 @@ public class PlantedPartition<V, E> {
             List<V> coreVertices = new ArrayList<>(numOfCoreNodes);
             for (int i = 0; i < numOfCoreNodes; i++) {
                 try {
-                    V vertex = vClass.getDeclaredConstructor().newInstance();
+                    V vertex = vClass.getDeclaredConstructor(int.class).newInstance(i);
                     coreVertices.add(vertex);
                     graph.addVertex(vertex);
                 } catch (Exception e) {
-                    throw new IllegalArgumentException("Class V must contain constructor!");
+                    throw new IllegalArgumentException("Class V must contain constructor with one int argument!");
                 }
             }
             int numOfPeripheryNodes = n - numOfCoreNodes;
             List<V> peripheryVertices = new ArrayList<>(numOfPeripheryNodes);
             for (int i = 0; i < numOfPeripheryNodes; i++) {
                 try {
-                    V vertex = vClass.getDeclaredConstructor().newInstance();
+                    V vertex = vClass.getDeclaredConstructor(int.class).newInstance(i);
                     peripheryVertices.add(vertex);
                     graph.addVertex(vertex);
                 } catch (Exception e) {
-                    throw new IllegalArgumentException("Class V must contain constructor!");
+                    throw new IllegalArgumentException("Class V must contain constructor with one int argument!");
                 }
             }
             List<V> vertices = graph.getVertices().stream().toList();

@@ -10,7 +10,7 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 public class BarabasiAlbert<V, E> {
 
-    public UndirectedSparseGraph<V, E> generateBA(int n, int m0, int p, int m, Class<V> vClass, Class<E> eClass) {
+    public UndirectedSparseGraph<V, E> generateBA(int n, int m0, double p, int m, Class<V> vClass, Class<E> eClass) {
         ErdosRenyi<V, E> er = new ErdosRenyi<>();
         UndirectedSparseGraph<V, E> graph = er.generateER(m0, p, vClass, eClass);
 
@@ -24,10 +24,10 @@ public class BarabasiAlbert<V, E> {
         }
         for (int i = m0; i < n; i++) {
             try {
-                V vertex = vClass.getDeclaredConstructor().newInstance();
+                V vertex = vClass.getDeclaredConstructor(int.class).newInstance(i);
                 graph.addVertex(vertex);
             } catch (Exception e) {
-                throw new IllegalArgumentException("Class V must contain constructor!");
+                throw new IllegalArgumentException("Class V must contain constructor with one int argument!");
             }
             Object[] vertices = graph.getVertices().toArray();
             for (int j = 0; j < m; j++) {

@@ -15,11 +15,11 @@ public class ErdosRenyi<V, E> {
         UndirectedSparseGraph<V, E> graph = new UndirectedSparseGraph<>();
         try {
             for (int i = 0; i < n; i++) {
-                V v = vClass.getDeclaredConstructor().newInstance();
+                V v = vClass.getDeclaredConstructor(int.class).newInstance(i);
                 graph.addVertex(v);
             }
         } catch (Exception e) {
-            throw new IllegalArgumentException("Class V must contain constructor!");
+            throw new IllegalArgumentException("Class V must contain constructor with one int argument!");
         }
         Object[] vertices = graph.getVertices().toArray();
         for (int i = 0; i < vertices.length; i++) {
