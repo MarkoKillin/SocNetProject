@@ -14,6 +14,6 @@ public class Edge {
 
     @Override
     public String toString() {
-        return "Vertex [" + idEdge + "]";
+        return "Edge [" + idEdge + "]";
     }
 }
