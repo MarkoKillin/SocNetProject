@@ -4,11 +4,17 @@ import edu.uci.ics.jung.graph.UndirectedGraph;
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Iterator;
+
 
 public class Straightforward<V, E> {
     private UndirectedSparseGraph<V, E> graphSafe;
     private UndirectedSparseGraph<V, E> graph;
+    private Map<V, Integer> indecies;
 
     public Straightforward(UndirectedGraph<V, E> graphToDecompose) {
         if (graphToDecompose == null || graphToDecompose.getVertexCount() == 0)
@@ -21,6 +27,17 @@ public class Straightforward<V, E> {
         for (E e : graphToDecompose.getEdges()) {
             this.graphSafe.addEdge(e, graphToDecompose.getIncidentVertices(e));
         }
+        this.indecies = decompose();
+    }
+
+    public Map<V, Integer> getIndecies() {
+        return indecies;
+    }
+
+    public int getMaxShellIndex() {
+        return this.indecies.values().parallelStream()
+                .max(Integer::compareTo)
+                .orElse(0);
     }
 
     private void copyGraph() {
@@ -33,7 +50,7 @@ public class Straightforward<V, E> {
         }
     }
 
-    public Map<V, Integer> decompose() {
+    private Map<V, Integer> decompose() {
         copyGraph();
         Map<V, Integer> indices = new HashMap<>();
         int maxDegree = graph.getVertices().parallelStream()
@@ -41,7 +58,7 @@ public class Straightforward<V, E> {
                 .max()
                 .orElse(0);
         int currentShellIndex = 0;
-        while(graph.getVertexCount() > 0 && currentShellIndex <= maxDegree + 1) {
+        while (graph.getVertexCount() > 0 && currentShellIndex <= maxDegree + 1) {
             List<V> currentCore = findCore(currentShellIndex);
             for (V v : currentCore) {
                 indices.put(v, currentShellIndex - 1);
@@ -59,7 +76,7 @@ public class Straightforward<V, E> {
             Iterator<V> it = graph.getVertices().iterator();
             while (it.hasNext()) {
                 V v = it.next();
-                if (graph.degree(v) < currentShellIndex){
+                if (graph.degree(v) < currentShellIndex) {
                     result.add(v);
                     it.remove();
                     found = true;
@@ -77,7 +94,7 @@ public class Straightforward<V, E> {
             Iterator<V> it = graph.getVertices().iterator();
             while (it.hasNext()) {
                 V v = it.next();
-                if (graph.degree(v) < shellIndex){
+                if (graph.degree(v) < shellIndex) {
                     it.remove();
                     found = true;
                 }

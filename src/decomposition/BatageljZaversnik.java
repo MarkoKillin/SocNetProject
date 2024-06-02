@@ -6,17 +6,35 @@ import edu.uci.ics.jung.graph.util.EdgeType;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
+/**
+ * BatageljZaversnik algorithm for kcore decomposition
+ * Instancing this class starts decomposition
+ *
+ * @param <V> Vertex generic class
+ * @param <E> Edge generic class
+ */
 public class BatageljZaversnik<V, E> {
     private UndirectedSparseGraph<V, E> graph;
+    private Map<V, Integer> indecies;
 
     public BatageljZaversnik(UndirectedSparseGraph<V, E> graph) {
         if (graph == null || graph.getVertexCount() == 0)
             throw new IllegalArgumentException("Graph must contain at least 1 node!");
         this.graph = graph;
+        this.indecies = decompose();
     }
 
-    public Map<V, Integer> decompose() {
+    public Map<V, Integer> getShellIndecies() {
+        return indecies;
+    }
+
+    public int getMaxShellIndex() {
+        return this.indecies.values().parallelStream()
+                .max(Integer::compareTo)
+                .orElse(0);
+    }
+
+    private Map<V, Integer> decompose() {
         Map<V, Integer> indices = new HashMap<>();
         int maxDegree = graph.getVertices().parallelStream()
                 .mapToInt(graph::degree)
@@ -50,9 +68,14 @@ public class BatageljZaversnik<V, E> {
         return indices;
     }
 
+    /**
+     * Returns core as new graph. Does not restart decomposition!
+     *
+     * @param shellIndex - core
+     * @return UndirectedSparceGraph as core
+     */
     public UndirectedSparseGraph<V, E> getCore(int shellIndex) {
         UndirectedSparseGraph<V, E> core = new UndirectedSparseGraph<>();
-        Map<V, Integer> indecies = decompose();
 
         for (V vertex : graph.getVertices()) {
             core.addVertex(vertex);

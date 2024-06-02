@@ -18,7 +18,7 @@ public class GraphLoader {
             br = new BufferedReader(new FileReader("./data/ca-Erdos992.mtx"));
             String line;
             while ((line = br.readLine()) != null) {
-                if(line.startsWith("%"))
+                if (line.startsWith("%"))
                     continue;
                 String[] vertices = line.split(" ");
                 Vertex from = new Vertex(Integer.parseInt(vertices[0]));
@@ -41,8 +41,8 @@ public class GraphLoader {
         try {
             br = new BufferedReader(new FileReader("./data/CA-GrQc.txt"));
             String line;
-            while ((line = br.readLine()) != null){
-                if(line.startsWith("#"))
+            while ((line = br.readLine()) != null) {
+                if (line.startsWith("#"))
                     continue;
                 String[] vertices = line.split("\t");
                 Vertex from = new Vertex(Integer.parseInt(vertices[0]));
@@ -65,7 +65,7 @@ public class GraphLoader {
         try {
             br = new BufferedReader(new FileReader("./data/CA-HepTh.txt"));
             String line;
-            while ((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 if (line.startsWith("#"))
                     continue;
                 String[] vertices = line.split("\t");
@@ -83,14 +83,14 @@ public class GraphLoader {
         return graph;
     }
 
-    public UndirectedSparseGraph<Vertex,Edge> loadLastFMAsia(){
-        UndirectedSparseGraph<Vertex,Edge> graph = new UndirectedSparseGraph<>();
+    public UndirectedSparseGraph<Vertex, Edge> loadLastFMAsia() {
+        UndirectedSparseGraph<Vertex, Edge> graph = new UndirectedSparseGraph<>();
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader("./data/lastfm_asia_edges.csv"));
             String line;
-            while ((line = br.readLine()) != null){
-                if(line.startsWith("node"))
+            while ((line = br.readLine()) != null) {
+                if (line.startsWith("node"))
                     continue;
                 String[] vertices = line.split(",");
                 Vertex from = new Vertex(Integer.parseInt(vertices[0]));
