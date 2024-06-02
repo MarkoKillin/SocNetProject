@@ -11,11 +11,16 @@ public class GraphData {
     double smallWorldCoefOfGiantComponent;
     int diameterOfGiantComponent;
     double clusteringCoef;
+    double spearmanShellDegree;
+    double spearmanShellBetweenness;
+    double spearmanShellCloseness;
+    double spearmanShellEigenvector;
 
     public GraphData(int shellIndex, int numOfVertices, int numOfEdges,
                      double graphDensity, int numOfConnectedComponents, double percentageOfNodesInGiantComponent,
                      double percentageOfEdgesInGiantComponent, double smallWorldCoefOfGiantComponent,
-                     int diameterOfGiantComponent, double clusteringCoef) {
+                     int diameterOfGiantComponent, double clusteringCoef, double spearmanShellDegree, double spearmanShellBetweenness,
+                     double spearmanShellCloseness, double spearmanShellEigenvector) {
         this.shellIndex = shellIndex;
         this.numOfVertices = numOfVertices;
         this.numOfEdges = numOfEdges;
@@ -26,5 +31,9 @@ public class GraphData {
         this.smallWorldCoefOfGiantComponent = smallWorldCoefOfGiantComponent;
         this.diameterOfGiantComponent = diameterOfGiantComponent;
         this.clusteringCoef = clusteringCoef;
+        this.spearmanShellDegree = spearmanShellDegree;
+        this.spearmanShellBetweenness = spearmanShellBetweenness;
+        this.spearmanShellCloseness = spearmanShellCloseness;
+        this.spearmanShellEigenvector = spearmanShellEigenvector;
     }
 }
