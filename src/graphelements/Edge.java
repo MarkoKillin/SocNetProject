@@ -11,4 +11,9 @@ public class Edge {
     public Edge() {
         this(count++);
     }
+
+    @Override
+    public String toString() {
+        return "Vertex [" + idEdge + "]";
+    }
 }
