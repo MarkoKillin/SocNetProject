@@ -15,6 +15,7 @@ public class Tester {
         UndirectedSparseGraph<Vertex, Edge> graph = gl.loadLastFMAsia();
 //        System.out.println(graph.getEdges());
 
+
 //        BarabasiAlbert<Vertex, Edge> bagen = new BarabasiAlbert<>();
 //        ErdosRenyi<Vertex, Edge> erdosRenyi = new ErdosRenyi<>();
 //        PlantedPartition<Vertex, Edge> plantedPartition = new PlantedPartition<>();
