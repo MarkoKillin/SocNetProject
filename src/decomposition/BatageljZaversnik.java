@@ -41,9 +41,9 @@ public class BatageljZaversnik<V, E> {
                 .max()
                 .orElse(0);
 
-        ArrayList<Set<V>> boxes = new ArrayList<>(maxDegree + 1);
+        ArrayList<ArrayList<V>> boxes = new ArrayList<>(maxDegree + 1);
         for (int i = 0; i <= maxDegree; i++) {
-            boxes.add(new HashSet<>());
+            boxes.add(new ArrayList<>());
         }
         for (V vertex : graph.getVertices()) {
             int degree = graph.degree(vertex);
@@ -51,7 +51,7 @@ public class BatageljZaversnik<V, E> {
             boxes.get(degree).add(vertex);
         }
         for (int k = 0; k <= maxDegree; k++) {
-            Set<V> box = boxes.get(k);
+            ArrayList<V> box = boxes.get(k);
             Iterator<V> iterator = box.iterator();
             while (iterator.hasNext()) {
                 V x = iterator.next();

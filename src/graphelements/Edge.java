@@ -16,4 +16,12 @@ public class Edge {
     public String toString() {
         return "Edge [" + idEdge + "]";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Edge e) {
+            return this.idEdge == e.idEdge;
+        }
+        return false;
+    }
 }

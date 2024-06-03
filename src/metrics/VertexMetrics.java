@@ -25,11 +25,12 @@ public class VertexMetrics {
     public void calculateAndExportMetrics(UndirectedSparseGraph<Vertex, Edge> graph, String exportPath) {
         BatageljZaversnik<Vertex, Edge> batageljZaversnik = new BatageljZaversnik<>(graph);
         Map<Vertex, Integer> shellIndecies = batageljZaversnik.getShellIndecies();
+
         BetweennessCentrality<Vertex, Edge> betweenness = new BetweennessCentrality<>(graph);
         ClosenessCentrality<Vertex, Edge> closeness = new ClosenessCentrality<>(graph);
         EigenvectorCentrality<Vertex, Edge> eigenvector = new EigenvectorCentrality<>(graph);
         eigenvector.evaluate();
-        //shell index, degree, betweenness, closeness, eigenvector
+
         try {
             PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(exportPath + ".csv")));
             for (Vertex vertex : graph.getVertices()) {
@@ -44,7 +45,5 @@ public class VertexMetrics {
         } catch (IOException e) {
             System.out.println("Error writing to file " + exportPath);
         }
-
-
     }
 }

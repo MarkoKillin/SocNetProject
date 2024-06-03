@@ -71,17 +71,20 @@ public class Straightforward<V, E> {
     private List<V> findCore(int currentShellIndex) {
         List<V> result = new ArrayList<>();
         boolean found = true;
+        ArrayList<V> toRemove = new ArrayList<>();
         while (found) {
             found = false;
-            Iterator<V> it = graph.getVertices().iterator();
-            while (it.hasNext()) {
-                V v = it.next();
+            for (V v : graph.getVertices()) {
                 if (graph.degree(v) < currentShellIndex) {
                     result.add(v);
-                    it.remove();
+                    toRemove.add(v);
                     found = true;
                 }
             }
+            for (V v : toRemove) {
+                graph.removeVertex(v);
+            }
+            toRemove.clear();
         }
         return result;
     }
@@ -89,16 +92,19 @@ public class Straightforward<V, E> {
     public UndirectedSparseGraph<V, E> getCore(int shellIndex) {
         copyGraph();
         boolean found = true;
+        ArrayList<V> toRemove = new ArrayList<>();
         while (found) {
             found = false;
-            Iterator<V> it = graph.getVertices().iterator();
-            while (it.hasNext()) {
-                V v = it.next();
+            for (V v : graph.getVertices()) {
                 if (graph.degree(v) < shellIndex) {
-                    it.remove();
+                    toRemove.add(v);
                     found = true;
                 }
             }
+            for (V v : toRemove) {
+                graph.removeVertex(v);
+            }
+            toRemove.clear();
         }
         return graph;
     }
