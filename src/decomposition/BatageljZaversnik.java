@@ -52,7 +52,7 @@ public class BatageljZaversnik<V, E> {
         }
         for (int k = 0; k <= maxDegree; k++) {
             ArrayList<V> box = boxes.get(k);
-            for (int i = 0; i < box.size(); i++) {
+            while (!box.isEmpty()) {
                 V x = box.remove(0);
                 for (V v : graph.getNeighbors(x)) {
                     if (indices.get(v) > k) {

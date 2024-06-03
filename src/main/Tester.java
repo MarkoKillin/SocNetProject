@@ -34,8 +34,8 @@ public class Tester {
 //        long s = System.currentTimeMillis();
 //        BetweennessCentrality<Integer, String> bc = new BetweennessCentrality<>(graph);
 //        System.out.println((System.currentTimeMillis() - s) / 1000.0);
-        GraphExporter ge = new GraphExporter();
-        ge.exportGraphAsCSV(graph, "test");
+//        GraphExporter ge = new GraphExporter();
+//        ge.exportGraphAsCSV(graph, "test");
 
 //        System.out.println(graph.getEdges());
     }
