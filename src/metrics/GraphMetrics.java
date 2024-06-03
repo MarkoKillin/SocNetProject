@@ -26,9 +26,18 @@ public class GraphMetrics {
             giantComponent.addVertex(v);
         for (Edge e : graph.getEdges())
             giantComponent.addEdge(e, graph.getIncidentVertices(e), EdgeType.UNDIRECTED);
+
         //called giantComponent, but it will become it
         BatageljZaversnik<Vertex, Edge> batageljZaversnik = new BatageljZaversnik<>(giantComponent);
         Map<Vertex, Integer> shellIndecies = batageljZaversnik.getShellIndecies();
+
+        //calculating spearman corelations
+        double[] spearman = calculateSpearmanCorelations(giantComponent, batageljZaversnik.getShellIndecies());
+        double spearmanShellDegree = spearman[0];
+        double spearmanShellBetweenness = spearman[1];
+        double spearmanShellCloseness = spearman[2];
+        double spearmanShellEigenvector = spearman[3];
+
         WeakComponentClusterer<Vertex, Edge> wcc = new WeakComponentClusterer<>();
         Set<Set<Vertex>> components = wcc.transform(giantComponent);
         Set<Set<Vertex>> toRemove = components.parallelStream().sorted((x, y) -> y.size() - x.size()).skip(1).collect(Collectors.toSet());
@@ -38,6 +47,9 @@ public class GraphMetrics {
             }
         }
         //giantComponent is now a giantComponent
+
+        //stefan rekao amin
+        //izbaci spearmana odavde
         try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(exportPath + ".csv")))) {
             for (int i = 0; i < batageljZaversnik.getMaxShellIndex(); i++) {
                 UndirectedSparseGraph<Vertex, Edge> core = batageljZaversnik.getCore(i);
@@ -51,11 +63,6 @@ public class GraphMetrics {
                 double smallWorldCoefOfGiantComponent = smallworld(giantComponent);
                 int diameterOfGiantComponent = diameter(giantComponent);
                 double clusteringCoef = clusteingCoef(giantComponent);
-                double[] spearman = calculateSpearmanCorelations(giantComponent, batageljZaversnik.getShellIndecies());
-                double spearmanShellDegree = spearman[0];
-                double spearmanShellBetweenness = spearman[1];
-                double spearmanShellCloseness = spearman[2];
-                double spearmanShellEigenvector = spearman[3];
                 StringBuilder sb = new StringBuilder();
                 sb.append(i).append(",")
                         .append(numberOfVertices).append(",")

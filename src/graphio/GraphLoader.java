@@ -1,9 +1,7 @@
-package graphinput;
+package graphio;
 
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
-import graphelements.Edge;
-import graphelements.Vertex;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
