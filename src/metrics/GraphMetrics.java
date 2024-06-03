@@ -2,13 +2,14 @@ package metrics;
 
 import decomposition.BatageljZaversnik;
 import edu.uci.ics.jung.algorithms.cluster.WeakComponentClusterer;
+import edu.uci.ics.jung.algorithms.metrics.Metrics;
 import edu.uci.ics.jung.algorithms.scoring.BetweennessCentrality;
 import edu.uci.ics.jung.algorithms.scoring.ClosenessCentrality;
 import edu.uci.ics.jung.algorithms.scoring.EigenvectorCentrality;
+import edu.uci.ics.jung.algorithms.shortestpath.DistanceStatistics;
+import edu.uci.ics.jung.algorithms.shortestpath.UnweightedShortestPath;
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
-import graphelements.Edge;
-import graphelements.Vertex;
 import org.apache.commons.math3.stat.correlation.SpearmansCorrelation;
 
 import java.io.BufferedWriter;
@@ -20,39 +21,44 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class GraphMetrics {
-    public void calculateMetrics(UndirectedSparseGraph<Vertex, Edge> graph, String exportPath) {
-        UndirectedSparseGraph<Vertex, Edge> giantComponent = new UndirectedSparseGraph<>();
-        for (Vertex v : graph.getVertices())
+    public void calculateMetrics(UndirectedSparseGraph<Integer, String> graph, String exportPath) {
+        UndirectedSparseGraph<Integer, String> giantComponent = new UndirectedSparseGraph<>();
+        for (Integer v : graph.getVertices())
             giantComponent.addVertex(v);
-        for (Edge e : graph.getEdges())
-            giantComponent.addEdge(e, graph.getIncidentVertices(e), EdgeType.UNDIRECTED);
+        for (String edge : graph.getEdges())
+            giantComponent.addEdge(edge, graph.getIncidentVertices(edge), EdgeType.UNDIRECTED);
+
+        BetweennessCentrality<Integer, String> betweennessCentrality = new BetweennessCentrality<>(giantComponent);
+        ClosenessCentrality<Integer, String> closenessCentrality = new ClosenessCentrality<>(giantComponent);
+        EigenvectorCentrality<Integer, String> eigenvectorCentrality = new EigenvectorCentrality<>(giantComponent);
+        eigenvectorCentrality.evaluate();
 
         //called giantComponent, but it will become it
-        BatageljZaversnik<Vertex, Edge> batageljZaversnik = new BatageljZaversnik<>(giantComponent);
-        Map<Vertex, Integer> shellIndecies = batageljZaversnik.getShellIndecies();
+        BatageljZaversnik<Integer, String> batageljZaversnik = new BatageljZaversnik<>(giantComponent);
+        Map<Integer, Integer> shellIndecies = batageljZaversnik.getShellIndecies();
 
         //calculating spearman corelations
-        double[] spearman = calculateSpearmanCorelations(giantComponent, batageljZaversnik.getShellIndecies());
+        double[] spearman = calculateSpearmanCorelations(giantComponent, batageljZaversnik.getShellIndecies(), betweennessCentrality,
+                closenessCentrality, eigenvectorCentrality);
         double spearmanShellDegree = spearman[0];
         double spearmanShellBetweenness = spearman[1];
         double spearmanShellCloseness = spearman[2];
         double spearmanShellEigenvector = spearman[3];
 
-        WeakComponentClusterer<Vertex, Edge> wcc = new WeakComponentClusterer<>();
-        Set<Set<Vertex>> components = wcc.transform(giantComponent);
-        Set<Set<Vertex>> toRemove = components.parallelStream().sorted((x, y) -> y.size() - x.size()).skip(1).collect(Collectors.toSet());
-        for (Set<Vertex> vertices : toRemove) {
-            for (Vertex vertex : vertices) {
+        WeakComponentClusterer<Integer, String> wcc = new WeakComponentClusterer<>();
+        Set<Set<Integer>> components = wcc.transform(giantComponent);
+        Set<Set<Integer>> toRemove = components.parallelStream().sorted((x, y) -> y.size() - x.size()).skip(1).collect(Collectors.toSet());
+        for (Set<Integer> vertices : toRemove) {
+            for (Integer vertex : vertices) {
                 giantComponent.removeVertex(vertex);
             }
         }
         //giantComponent is now a giantComponent
 
-        //stefan rekao amin
-        //izbaci spearmana odavde
+        //izbaci spearmana odavde i ostale koji ne traze visestruko
         try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(exportPath + ".csv")))) {
             for (int i = 0; i < batageljZaversnik.getMaxShellIndex(); i++) {
-                UndirectedSparseGraph<Vertex, Edge> core = batageljZaversnik.getCore(i);
+                UndirectedSparseGraph<Integer, String> core = batageljZaversnik.getCore(i);
                 int numberOfVertices = core.getVertexCount();
                 int numberOfEdges = core.getEdgeCount();
                 double graphDensity = ((double) numberOfEdges * 2) / ((double) numberOfVertices * (numberOfVertices - 1));
@@ -61,7 +67,7 @@ public class GraphMetrics {
                 double percentageOfEdgesInGiantComponent = (double) giantComponent.getEdgeCount() / (double) graph.getEdgeCount() * 100;
                 //calculate
                 double smallWorldCoefOfGiantComponent = smallworld(giantComponent);
-                int diameterOfGiantComponent = diameter(giantComponent);
+                double diameterOfGiantComponent = DistanceStatistics.diameter(core);
                 double clusteringCoef = clusteingCoef(giantComponent);
                 StringBuilder sb = new StringBuilder();
                 sb.append(i).append(",")
@@ -86,20 +92,21 @@ public class GraphMetrics {
     }
 
 
-    private double[] calculateSpearmanCorelations(UndirectedSparseGraph<Vertex, Edge> giantComponent, Map<Vertex, Integer> shellIndecies) {
+    private double[] calculateSpearmanCorelations(UndirectedSparseGraph<Integer, String> giantComponent, Map<Integer, Integer> shellIndecies,
+                                                  BetweennessCentrality<Integer, String> betweennessCentrality,
+                                                  ClosenessCentrality<Integer, String> closenessCentrality,
+                                                  EigenvectorCentrality<Integer, String> eigenvectorCentrality) {
         double[] res = new double[4];
-        BetweennessCentrality<Vertex, Edge> betweennessCentrality = new BetweennessCentrality<>(giantComponent);
-        ClosenessCentrality<Vertex, Edge> closenessCentrality = new ClosenessCentrality<>(giantComponent);
-        EigenvectorCentrality<Vertex, Edge> eigenvectorCentrality = new EigenvectorCentrality<>(giantComponent);
-        eigenvectorCentrality.evaluate();
-        double[] shel = new double[giantComponent.getVertexCount()];
-        double[] degs = new double[giantComponent.getVertexCount()];
-        double[] betw = new double[giantComponent.getVertexCount()];
-        double[] clos = new double[giantComponent.getVertexCount()];
-        double[] eige = new double[giantComponent.getVertexCount()];
+
+        int size = giantComponent.getVertexCount();
+        double[] shel = new double[size];
+        double[] degs = new double[size];
+        double[] betw = new double[size];
+        double[] clos = new double[size];
+        double[] eige = new double[size];
         Object[] array = giantComponent.getVertices().toArray();
         for (int i = 0; i < array.length; i++) {
-            Vertex v = (Vertex) array[i];
+            Integer v = (Integer) array[i];
             shel[i] = shellIndecies.get(v);
             degs[i] = giantComponent.degree(v);
             betw[i] = betweennessCentrality.getVertexScore(v);
@@ -114,16 +121,28 @@ public class GraphMetrics {
         return res;
     }
 
-    private double clusteingCoef(UndirectedSparseGraph<Vertex, Edge> giantComponent) {
-        return 0;
+    private double clusteingCoef(UndirectedSparseGraph<Integer, String> graph) {
+        Map<Integer, Double> clusteringCoefficients = Metrics.clusteringCoefficients(graph);
+        double sum = clusteringCoefficients.values().parallelStream().reduce(0.0, Double::sum);
+        return sum / (double) graph.getVertexCount();
     }
 
-    private int diameter(UndirectedSparseGraph<Vertex, Edge> giantComponent) {
-        return 0;
+    private double smallworld(UndirectedSparseGraph<Integer, String> graph) {
+        double sum = 0.0;
+        for (Integer vertex : graph.getVertices()) {
+            sum += calculateDistance(graph, vertex);
+        }
+        return sum / ((double) graph.getVertexCount() * (graph.getVertexCount() - 1));
     }
 
-    private double smallworld(UndirectedSparseGraph<Vertex, Edge> giantComponent) {
-        return 0.0;
+    private double calculateDistance(UndirectedSparseGraph<Integer, String> graph, Integer vertex) {
+        double distance = 0.0;
+        UnweightedShortestPath<Integer, String> uwsp =  new UnweightedShortestPath<>(graph);
+        Map<Integer, Number> distanceMap = uwsp.getDistanceMap(vertex);
+        for (Map.Entry<Integer, Number> entry : distanceMap.entrySet()) {
+            distance += entry.getValue().doubleValue();
+        }
+        return distance;
     }
 }
 

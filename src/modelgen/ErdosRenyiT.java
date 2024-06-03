@@ -2,14 +2,7 @@ package modelgen;
 
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
-import graphelements.Edge;
-import graphelements.Vertex;
 import org.apache.commons.collections15.Transformer;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
-import java.util.Random;
-import java.util.function.Supplier;
 
 @SuppressWarnings({"unchecked"})
 public class ErdosRenyiT<V, E> {

@@ -5,8 +5,6 @@ import edu.uci.ics.jung.algorithms.scoring.BetweennessCentrality;
 import edu.uci.ics.jung.algorithms.scoring.ClosenessCentrality;
 import edu.uci.ics.jung.algorithms.scoring.EigenvectorCentrality;
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
-import graphelements.Edge;
-import graphelements.Vertex;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -22,18 +20,18 @@ public class VertexMetrics {
      * @param graph      graph used for metrics
      * @param exportPath name of file without extension
      */
-    public void calculateAndExportMetrics(UndirectedSparseGraph<Vertex, Edge> graph, String exportPath) {
-        BatageljZaversnik<Vertex, Edge> batageljZaversnik = new BatageljZaversnik<>(graph);
-        Map<Vertex, Integer> shellIndecies = batageljZaversnik.getShellIndecies();
+    public void calculateAndExportMetrics(UndirectedSparseGraph<Integer, String> graph, String exportPath) {
+        BatageljZaversnik<Integer, String> batageljZaversnik = new BatageljZaversnik<>(graph);
+        Map<Integer, Integer> shellIndecies = batageljZaversnik.getShellIndecies();
 
-        BetweennessCentrality<Vertex, Edge> betweenness = new BetweennessCentrality<>(graph);
-        ClosenessCentrality<Vertex, Edge> closeness = new ClosenessCentrality<>(graph);
-        EigenvectorCentrality<Vertex, Edge> eigenvector = new EigenvectorCentrality<>(graph);
+        BetweennessCentrality<Integer, String> betweenness = new BetweennessCentrality<>(graph);
+        ClosenessCentrality<Integer, String> closeness = new ClosenessCentrality<>(graph);
+        EigenvectorCentrality<Integer, String> eigenvector = new EigenvectorCentrality<>(graph);
         eigenvector.evaluate();
 
         try {
             PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(exportPath + ".csv")));
-            for (Vertex vertex : graph.getVertices()) {
+            for (Integer vertex : graph.getVertices()) {
                 StringBuilder sb = new StringBuilder();
                 sb.append(shellIndecies.get(vertex)).append(",")
                         .append(graph.degree(vertex)).append(",")
