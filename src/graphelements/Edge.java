@@ -1,26 +1,26 @@
 package graphelements;
 
 public class Edge {
-    private static int count = 0;
-    public int idEdge;
 
-    public Edge(int idEdge) {
-        this.idEdge = idEdge;
+    public String dataEdge;
+
+    public Edge(String dataEdge) {
+        this.dataEdge = dataEdge;
     }
 
     public Edge() {
-        this(count++);
+        this("");
     }
 
     @Override
     public String toString() {
-        return "Edge [" + idEdge + "]";
+        return "Edge [" + dataEdge + "]";
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Edge e) {
-            return this.idEdge == e.idEdge;
+            return this.dataEdge.equals(e.dataEdge);
         }
         return false;
     }

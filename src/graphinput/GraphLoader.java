@@ -1,6 +1,7 @@
 package graphinput;
 
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
+import edu.uci.ics.jung.graph.util.EdgeType;
 import graphelements.Edge;
 import graphelements.Vertex;
 
@@ -11,8 +12,8 @@ import java.io.IOException;
 
 public class GraphLoader {
 
-    public UndirectedSparseGraph<Vertex, Edge> loadErdos992Network() {
-        UndirectedSparseGraph<Vertex, Edge> graph = new UndirectedSparseGraph<>();
+    public UndirectedSparseGraph<Integer, String> loadErdos992Network() {
+        UndirectedSparseGraph<Integer, String> graph = new UndirectedSparseGraph<>();
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader("./data/ca-Erdos992.mtx"));
@@ -21,11 +22,11 @@ public class GraphLoader {
                 if (line.startsWith("%"))
                     continue;
                 String[] vertices = line.split(" ");
-                Vertex from = new Vertex(Integer.parseInt(vertices[0]));
-                Vertex to = new Vertex(Integer.parseInt(vertices[1]));
+                Integer from = Integer.parseInt(vertices[0]);
+                Integer to = Integer.parseInt(vertices[1]);
                 graph.addVertex(from);
                 graph.addVertex(to);
-                graph.addEdge(new Edge(), from, to);
+                graph.addEdge(from + " - " + to, from, to, EdgeType.UNDIRECTED);
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
@@ -35,8 +36,8 @@ public class GraphLoader {
         return graph;
     }
 
-    public UndirectedSparseGraph<Vertex, Edge> loadGeneralRelativityColaboration() {
-        UndirectedSparseGraph<Vertex, Edge> graph = new UndirectedSparseGraph<>();
+    public UndirectedSparseGraph<Integer, String> loadGeneralRelativityColaboration() {
+        UndirectedSparseGraph<Integer, String> graph = new UndirectedSparseGraph<>();
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader("./data/CA-GrQc.txt"));
@@ -45,11 +46,11 @@ public class GraphLoader {
                 if (line.startsWith("#"))
                     continue;
                 String[] vertices = line.split("\t");
-                Vertex from = new Vertex(Integer.parseInt(vertices[0]));
-                Vertex to = new Vertex(Integer.parseInt(vertices[1]));
+                Integer from = Integer.parseInt(vertices[0]);
+                Integer to = Integer.parseInt(vertices[1]);
                 graph.addVertex(from);
                 graph.addVertex(to);
-                graph.addEdge(new Edge(), from, to);
+                graph.addEdge(from + " - " + to, from, to, EdgeType.UNDIRECTED);
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
@@ -59,8 +60,8 @@ public class GraphLoader {
         return graph;
     }
 
-    public UndirectedSparseGraph<Vertex, Edge> loadHighEnergyPhysicsColaboration() {
-        UndirectedSparseGraph<Vertex, Edge> graph = new UndirectedSparseGraph<>();
+    public UndirectedSparseGraph<Integer, String> loadHighEnergyPhysicsColaboration() {
+        UndirectedSparseGraph<Integer, String> graph = new UndirectedSparseGraph<>();
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader("./data/CA-HepTh.txt"));
@@ -69,11 +70,11 @@ public class GraphLoader {
                 if (line.startsWith("#"))
                     continue;
                 String[] vertices = line.split("\t");
-                Vertex from = new Vertex(Integer.parseInt(vertices[0]));
-                Vertex to = new Vertex(Integer.parseInt(vertices[1]));
+                Integer from = Integer.parseInt(vertices[0]);
+                Integer to = Integer.parseInt(vertices[1]);
                 graph.addVertex(from);
                 graph.addVertex(to);
-                graph.addEdge(new Edge(), from, to);
+                graph.addEdge(from + " - " + to, from, to, EdgeType.UNDIRECTED);
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
@@ -83,8 +84,8 @@ public class GraphLoader {
         return graph;
     }
 
-    public UndirectedSparseGraph<Vertex, Edge> loadLastFMAsia() {
-        UndirectedSparseGraph<Vertex, Edge> graph = new UndirectedSparseGraph<>();
+    public UndirectedSparseGraph<Integer, String> loadLastFMAsia() {
+        UndirectedSparseGraph<Integer, String> graph = new UndirectedSparseGraph<>();
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader("./data/lastfm_asia_edges.csv"));
@@ -93,11 +94,11 @@ public class GraphLoader {
                 if (line.startsWith("node"))
                     continue;
                 String[] vertices = line.split(",");
-                Vertex from = new Vertex(Integer.parseInt(vertices[0]));
-                Vertex to = new Vertex(Integer.parseInt(vertices[1]));
+                Integer from = Integer.parseInt(vertices[0]);
+                Integer to = Integer.parseInt(vertices[1]);
                 graph.addVertex(from);
                 graph.addVertex(to);
-                graph.addEdge(new Edge(), from, to);
+                graph.addEdge(from + " - " + to, from, to, EdgeType.UNDIRECTED);
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
