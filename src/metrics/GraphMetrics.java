@@ -16,6 +16,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -37,6 +38,9 @@ public class GraphMetrics {
         BatageljZaversnik<Integer, String> batageljZaversnik = new BatageljZaversnik<>(giantComponent);
         Map<Integer, Integer> shellIndecies = batageljZaversnik.getShellIndecies();
 
+        exportDegreeDistribution(giantComponent, exportPath);
+        exportVertexMetrics(giantComponent, betweennessCentrality, closenessCentrality, eigenvectorCentrality, shellIndecies, exportPath);
+
         //calculating spearman corelations
         double[] spearman = calculateSpearmanCorelations(giantComponent, batageljZaversnik.getShellIndecies(), betweennessCentrality,
                 closenessCentrality, eigenvectorCentrality);
@@ -45,20 +49,21 @@ public class GraphMetrics {
         double spearmanShellCloseness = spearman[2];
         double spearmanShellEigenvector = spearman[3];
 
-        WeakComponentClusterer<Integer, String> wcc = new WeakComponentClusterer<>();
-        Set<Set<Integer>> components = wcc.transform(giantComponent);
-        Set<Set<Integer>> toRemove = components.parallelStream().sorted((x, y) -> y.size() - x.size()).skip(1).collect(Collectors.toSet());
-        for (Set<Integer> vertices : toRemove) {
-            for (Integer vertex : vertices) {
-                giantComponent.removeVertex(vertex);
-            }
-        }
-        //giantComponent is now a giantComponent
 
-        //izbaci spearmana odavde i ostale koji ne traze visestruko
         try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(exportPath + ".csv")))) {
+            //these correlation metrics don't require calculating for each core
+            pw.println(spearmanShellDegree + "," + spearmanShellBetweenness + "," + spearmanShellCloseness + "," + spearmanShellEigenvector);
             for (int i = 0; i < batageljZaversnik.getMaxShellIndex(); i++) {
                 UndirectedSparseGraph<Integer, String> core = batageljZaversnik.getCore(i);
+                WeakComponentClusterer<Integer, String> wcc = new WeakComponentClusterer<>();
+                Set<Set<Integer>> components = wcc.transform(core);
+                Set<Set<Integer>> toRemove = components.parallelStream().sorted((x, y) -> y.size() - x.size()).skip(1).collect(Collectors.toSet());
+                for (Set<Integer> vertices : toRemove) {
+                    for (Integer vertex : vertices) {
+                        giantComponent.removeVertex(vertex);
+                    }
+                }
+                //giantComponent is now a giantComponent
                 int numberOfVertices = core.getVertexCount();
                 int numberOfEdges = core.getEdgeCount();
                 double graphDensity = ((double) numberOfEdges * 2) / ((double) numberOfVertices * (numberOfVertices - 1));
@@ -79,15 +84,42 @@ public class GraphMetrics {
                         .append(percentageOfEdgesInGiantComponent).append(",")
                         .append(smallWorldCoefOfGiantComponent).append(",")
                         .append(diameterOfGiantComponent).append(",")
-                        .append(clusteringCoef).append(",")
-                        .append(spearmanShellDegree).append(",")
-                        .append(spearmanShellBetweenness).append(",")
-                        .append(spearmanShellCloseness).append(",")
-                        .append(spearmanShellEigenvector);
+                        .append(clusteringCoef).append(",");
                 pw.println(sb);
             }
         } catch (IOException e) {
-            System.out.println("Error writing to file " + exportPath);
+            System.out.println("Error writing to file " + exportPath + ".csv");
+        }
+    }
+
+    private void exportDegreeDistribution(UndirectedSparseGraph<Integer, String> giantComponent, String exportPath) {
+        Map<Integer, Integer> degreeDistribution = new HashMap<>();
+        for (Integer vertex : giantComponent.getVertices()) {
+            int degree = giantComponent.degree(vertex);
+            if (degreeDistribution.containsKey(degree))
+                degreeDistribution.put(degree, degreeDistribution.get(degree) + 1);
+            else
+                degreeDistribution.put(degree, 1);
+        }
+        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(exportPath + "_degree_distribution.csv")))) {
+            for (Map.Entry<Integer, Integer> entry : degreeDistribution.entrySet()) {
+                pw.println(entry.getKey() + "," + entry.getValue());
+            }
+        } catch (IOException e) {
+            System.out.println("Error writing to file " + exportPath + "_vertices.csv");
+        }
+    }
+
+    private void exportVertexMetrics(UndirectedSparseGraph<Integer, String> giantComponent, BetweennessCentrality<Integer, String> betweennessCentrality,
+                                     ClosenessCentrality<Integer, String> closenessCentrality, EigenvectorCentrality<Integer, String> eigenvectorCentrality,
+                                     Map<Integer, Integer> shellIndecies, String exportPath) {
+        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(exportPath + "_vertices.csv")))) {
+            for (Integer vertex : giantComponent.getVertices()) {
+                pw.println(shellIndecies.get(vertex) + "," + giantComponent.degree(vertex) + "," + betweennessCentrality.getVertexScore(vertex) +
+                        "," + closenessCentrality.getVertexScore(vertex) + "," + eigenvectorCentrality.getVertexScore(vertex));
+            }
+        } catch (IOException e) {
+            System.out.println("Error writing to file " + exportPath + "_vertices.csv");
         }
     }
 
@@ -137,7 +169,7 @@ public class GraphMetrics {
 
     private double calculateDistance(UndirectedSparseGraph<Integer, String> graph, Integer vertex) {
         double distance = 0.0;
-        UnweightedShortestPath<Integer, String> uwsp =  new UnweightedShortestPath<>(graph);
+        UnweightedShortestPath<Integer, String> uwsp = new UnweightedShortestPath<>(graph);
         Map<Integer, Number> distanceMap = uwsp.getDistanceMap(vertex);
         for (Map.Entry<Integer, Number> entry : distanceMap.entrySet()) {
             distance += entry.getValue().doubleValue();
