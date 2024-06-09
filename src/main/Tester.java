@@ -6,16 +6,17 @@ import edu.uci.ics.jung.algorithms.scoring.BetweennessCentrality;
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
 import graphio.GraphExporter;
 import graphio.GraphLoader;
+import metrics.GraphMetrics;
 import modelgen.ErdosRenyiT;
 
 public class Tester {
 
     public static void main(String[] args) {
-        GraphLoader gl = new GraphLoader();
+//        GraphLoader gl = new GraphLoader();
 
 
 //        BarabasiAlbert<Vertex, Edge> bagen = new BarabasiAlbert<>();
-        ErdosRenyiT<Integer, String> erdosRenyi = new ErdosRenyiT<>();
+//        ErdosRenyiT<Integer, String> erdosRenyi = new ErdosRenyiT<>();
 //        PlantedPartition<Vertex, Edge> plantedPartition = new PlantedPartition<>();
         //fix barabasi albert
 //        UndirectedSparseGraph<Vertex, Edge> graph = bagen.generateBA(10000, 1000, 0.001, 100, Vertex.class, Edge.class);
@@ -23,14 +24,14 @@ public class Tester {
 //        UndirectedSparseGraph<Vertex, Edge> graph = plantedPartition.generatePP(1000, 0.1, 0.03, 0.01, 0.001, Vertex.class, Edge.class);
 
 //        System.out.println(graph.degree(0));
-        UndirectedSparseGraph<Integer, String> graph = gl.loadLastFMAsia();
-        BatageljZaversnik<Integer, String> bz = new BatageljZaversnik<>(graph);
-        Straightforward<Integer, String> sf = new Straightforward<>(graph);
-        System.out.println(bz.getCore(bz.getMaxShellIndex()).getVertices());
-        System.out.println(bz.getMaxShellIndex());
-
-        System.out.println(sf.getCore(sf.getMaxShellIndex()).getVertices());
-        System.out.println(sf.getMaxShellIndex());
+//        UndirectedSparseGraph<Integer, String> graph = gl.loadLastFMAsia();
+//        BatageljZaversnik<Integer, String> bz = new BatageljZaversnik<>(graph);
+//        Straightforward<Integer, String> sf = new Straightforward<>(graph);
+//        System.out.println(bz.getCore(bz.getMaxShellIndex()).getVertices());
+//        System.out.println(bz.getMaxShellIndex());
+//
+//        System.out.println(sf.getCore(sf.getMaxShellIndex()).getVertices());
+//        System.out.println(sf.getMaxShellIndex());
 //        long s = System.currentTimeMillis();
 //        BetweennessCentrality<Integer, String> bc = new BetweennessCentrality<>(graph);
 //        System.out.println((System.currentTimeMillis() - s) / 1000.0);
@@ -38,5 +39,13 @@ public class Tester {
 //        ge.exportGraphAsCSV(graph, "test");
 
 //        System.out.println(graph.getEdges());
+
+        long time = System.currentTimeMillis();
+        ErdosRenyiT<Integer, String> er = new ErdosRenyiT<>();
+        UndirectedSparseGraph<Integer, String> graph = er.generateER(1000, 0.01, i -> i, s -> s);
+        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
+        GraphMetrics m = new GraphMetrics();
+        m.calculateMetrics(graph, "test");
+        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
     }
 }
