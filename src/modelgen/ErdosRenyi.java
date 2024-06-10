@@ -2,39 +2,29 @@ package modelgen;
 
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
-import java.util.Random;
-import java.util.function.Supplier;
+import org.apache.commons.collections15.Transformer;
 
 @SuppressWarnings({"unchecked"})
 public class ErdosRenyi<V, E> {
 
-    public UndirectedSparseGraph<V, E> generateER(int n, double p, Class<V> vClass, Class<E> eClass) {
+    public UndirectedSparseGraph<V, E> generateER(int n, double p, Transformer<Integer, V> vTransformer,
+                                                  Transformer<String, E> eTransformer) {
         UndirectedSparseGraph<V, E> graph = new UndirectedSparseGraph<>();
-        try {
-            for (int i = 0; i < n; i++) {
-                V v = vClass.getDeclaredConstructor(int.class).newInstance(i);
-                graph.addVertex(v);
-            }
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Class V must contain constructor with one int argument!");
+        for (int i = 0; i < n; i++) {
+            V v = vTransformer.transform(i);
+            graph.addVertex(v);
         }
         Object[] vertices = graph.getVertices().toArray();
         for (int i = 0; i < vertices.length; i++) {
             for (int j = i + 1; j < vertices.length; j++) {
                 if (Math.random() <= p) {
-                    try {
-                        E edge = eClass.getDeclaredConstructor().newInstance();
-                        graph.addEdge(edge, (V) vertices[i], (V) vertices[j], EdgeType.UNDIRECTED);
-                    } catch (Exception e) {
-                        throw new IllegalArgumentException("Class E must contain constructor!");
-                    }
+                    V from = (V) vertices[i];
+                    V to = (V) vertices[j];
+                    E edge = eTransformer.transform(from + " - " + to);
+                    graph.addEdge(edge, from, to, EdgeType.UNDIRECTED);
                 }
             }
         }
-
         return graph;
     }
 }

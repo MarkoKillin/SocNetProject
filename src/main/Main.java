@@ -3,7 +3,6 @@ package main;
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
 import graphio.GraphLoader;
 import metrics.GraphMetrics;
-import modelgen.ErdosRenyiT;
 
 public class Main {
     public static void main(String[] args) {

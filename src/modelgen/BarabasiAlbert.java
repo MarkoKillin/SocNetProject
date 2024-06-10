@@ -2,6 +2,7 @@ package modelgen;
 
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
+import org.apache.commons.collections15.Transformer;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -10,9 +11,10 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 public class BarabasiAlbert<V, E> {
 
-    public UndirectedSparseGraph<V, E> generateBA(int n, int m0, double p, int m, Class<V> vClass, Class<E> eClass) {
+    public UndirectedSparseGraph<V, E> generateBA(int n, int m0, double p, int m, Transformer<Integer, V> vTransformer,
+                                                  Transformer<String, E> eTransformer) {
         ErdosRenyi<V, E> er = new ErdosRenyi<>();
-        UndirectedSparseGraph<V, E> graph = er.generateER(m0, p, vClass, eClass);
+        UndirectedSparseGraph<V, E> graph = er.generateER(m0, p, vTransformer, eTransformer);
 
         List<Integer> degs = new ArrayList<>();
         int ix = 0;
@@ -23,21 +25,15 @@ public class BarabasiAlbert<V, E> {
             ix++;
         }
         for (int i = m0; i < n; i++) {
-            try {
-                V vertex = vClass.getDeclaredConstructor(int.class).newInstance(i);
-                graph.addVertex(vertex);
-            } catch (Exception e) {
-                throw new IllegalArgumentException("Class V must contain constructor with one int argument!");
-            }
+            V vertex = vTransformer.transform(i);
+            graph.addVertex(vertex);
             Object[] vertices = graph.getVertices().toArray();
             for (int j = 0; j < m; j++) {
                 int old = (int) (Math.random() * degs.size());
-                try {
-                    E edge = eClass.getDeclaredConstructor().newInstance();
-                    graph.addEdge(edge, (V) vertices[i], (V) vertices[old], EdgeType.UNDIRECTED);
-                } catch (Exception e) {
-                    throw new IllegalArgumentException("Class E must contain constructor!");
-                }
+                V from = (V) vertices[i];
+                V to = (V) vertices[old];
+                E edge = eTransformer.transform(from + " - " + to);
+                graph.addEdge(edge, from, to, EdgeType.UNDIRECTED);
                 degs.add(old);
             }
             for (int j = 0; j < m; j++) {
