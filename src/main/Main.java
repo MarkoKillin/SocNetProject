@@ -3,15 +3,26 @@ package main;
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
 import graphio.GraphLoader;
 import metrics.GraphMetrics;
+import modelgen.ErdosRenyi;
 
 public class Main {
     public static void main(String[] args) {
+//        first network
+//        long time = System.currentTimeMillis();
+//        GraphLoader gl = new GraphLoader();
+//        UndirectedSparseGraph<Integer, String> graph = gl.loadLastFMAsia();
+//        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
+//        GraphMetrics m = new GraphMetrics();
+//        m.calculateMetrics(graph, "LastFmAsia");
+//        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
+
+//        erdosrenyi network
         long time = System.currentTimeMillis();
-        GraphLoader gl = new GraphLoader();
-        UndirectedSparseGraph<Integer, String> graph = gl.loadLastFMAsia();
+        ErdosRenyi<Integer, String> er = new ErdosRenyi<>();
+        UndirectedSparseGraph<Integer, String> graph = er.generateER(5000, 0.001, i -> i, s -> s);
         System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
         GraphMetrics m = new GraphMetrics();
-        m.calculateMetrics(graph, "LastFmAsia");
+        m.calculateMetrics(graph, "ErdosRenyi5k");
         System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
     }
 }
