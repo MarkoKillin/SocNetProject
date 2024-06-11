@@ -33,7 +33,7 @@ public class GraphMetrics {
 
         BetweennessCentrality<Integer, String> betweennessCentrality = new BetweennessCentrality<>(giantComponent);
         System.out.println("betweenness done ---- ");
-        ClosenessCentrality<Integer, String> closenessCentrality = new ClosenessCentrality<>(giantComponent);
+        ClosenessCentralityCustom closenessCentrality = new ClosenessCentralityCustom(giantComponent);
         System.out.println("closeness done ---- ");
         EigenvectorCentrality<Integer, String> eigenvectorCentrality = new EigenvectorCentrality<>(giantComponent);
         eigenvectorCentrality.evaluate();
@@ -116,12 +116,12 @@ public class GraphMetrics {
     }
 
     private void exportVertexMetrics(UndirectedSparseGraph<Integer, String> giantComponent, BetweennessCentrality<Integer, String> betweennessCentrality,
-                                     ClosenessCentrality<Integer, String> closenessCentrality, EigenvectorCentrality<Integer, String> eigenvectorCentrality,
+                                     ClosenessCentralityCustom closenessCentrality, EigenvectorCentrality<Integer, String> eigenvectorCentrality,
                                      Map<Integer, Integer> shellIndecies, String exportPath) {
         try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("./exportedMetrics/" + exportPath + "_vertices.csv")))) {
             for (Integer vertex : giantComponent.getVertices()) {
                 pw.println(shellIndecies.get(vertex) + "," + giantComponent.degree(vertex) + "," + betweennessCentrality.getVertexScore(vertex) +
-                        "," + closenessCentrality.getVertexScore(vertex) + "," + eigenvectorCentrality.getVertexScore(vertex));
+                        "," + closenessCentrality.getClosenessMap().get(vertex) + "," + eigenvectorCentrality.getVertexScore(vertex));
             }
         } catch (IOException e) {
             System.out.println("Error writing to file " + exportPath + "_vertices.csv");
@@ -131,7 +131,7 @@ public class GraphMetrics {
 
     private double[] calculateSpearmanCorelations(UndirectedSparseGraph<Integer, String> giantComponent, Map<Integer, Integer> shellIndecies,
                                                   BetweennessCentrality<Integer, String> betweennessCentrality,
-                                                  ClosenessCentrality<Integer, String> closenessCentrality,
+                                                  ClosenessCentralityCustom closenessCentrality,
                                                   EigenvectorCentrality<Integer, String> eigenvectorCentrality) {
         double[] res = new double[4];
 
@@ -147,7 +147,7 @@ public class GraphMetrics {
             shel[i] = shellIndecies.get(v);
             degs[i] = giantComponent.degree(v);
             betw[i] = betweennessCentrality.getVertexScore(v);
-            clos[i] = closenessCentrality.getVertexScore(v);
+            clos[i] = closenessCentrality.getClosenessMap().get(v);
             eige[i] = eigenvectorCentrality.getVertexScore(v);
         }
         SpearmansCorrelation sc = new SpearmansCorrelation();
