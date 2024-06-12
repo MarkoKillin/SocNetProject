@@ -42,7 +42,7 @@ public class Tester {
 
         long time = System.currentTimeMillis();
         ErdosRenyi<Integer, String> er = new ErdosRenyi<>();
-        UndirectedSparseGraph<Integer, String> graph = er.generateER(1000, 0.001, i -> i, s -> s);
+        UndirectedSparseGraph<Integer, String> graph = er.generateER(2000, 0.01, i -> i, s -> s);
         System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
         GraphMetrics m = new GraphMetrics();
         m.calculateMetrics(graph, "ErdosRenyi1k");
