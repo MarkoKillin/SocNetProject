@@ -35,7 +35,7 @@ public class Straightforward<V, E> {
     }
 
     public int getMaxShellIndex() {
-        return this.indecies.values().parallelStream()
+        return this.indecies.values().stream()
                 .max(Integer::compareTo)
                 .orElse(0);
     }
@@ -53,7 +53,7 @@ public class Straightforward<V, E> {
     private Map<V, Integer> decompose() {
         copyGraph();
         Map<V, Integer> indices = new HashMap<>();
-        int maxDegree = graph.getVertices().parallelStream()
+        int maxDegree = graph.getVertices().stream()
                 .mapToInt(graph::degree)
                 .max()
                 .orElse(0);

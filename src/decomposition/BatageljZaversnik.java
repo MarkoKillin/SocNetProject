@@ -29,14 +29,14 @@ public class BatageljZaversnik<V, E> {
     }
 
     public int getMaxShellIndex() {
-        return this.indecies.values().parallelStream()
+        return this.indecies.values().stream()
                 .max(Integer::compareTo)
                 .orElse(0);
     }
 
     private Map<V, Integer> decompose() {
         Map<V, Integer> indices = new HashMap<>();
-        int maxDegree = graph.getVertices().parallelStream()
+        int maxDegree = graph.getVertices().stream()
                 .mapToInt(graph::degree)
                 .max()
                 .orElse(0);
@@ -82,7 +82,7 @@ public class BatageljZaversnik<V, E> {
             core.addEdge(edge, graph.getIncidentVertices(edge), EdgeType.UNDIRECTED);
         }
 
-        Set<V> toRemove = indecies.keySet().parallelStream().filter(x -> indecies.get(x) < shellIndex).collect(Collectors.toSet());
+        Set<V> toRemove = indecies.keySet().stream().filter(x -> indecies.get(x) < shellIndex).collect(Collectors.toSet());
 
         for (V vertex : toRemove) {
             core.removeVertex(vertex);

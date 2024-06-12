@@ -63,7 +63,7 @@ public class GraphMetrics {
                 UndirectedSparseGraph<Integer, String> core = batageljZaversnik.getCore(i);
                 WeakComponentClusterer<Integer, String> wcc = new WeakComponentClusterer<>();
                 Set<Set<Integer>> components = wcc.transform(core);
-                Set<Set<Integer>> toRemove = components.parallelStream().sorted((x, y) -> y.size() - x.size()).skip(1).collect(Collectors.toSet());
+                Set<Set<Integer>> toRemove = components.stream().sorted((x, y) -> y.size() - x.size()).skip(1).collect(Collectors.toSet());
                 for (Set<Integer> vertices : toRemove) {
                     for (Integer vertex : vertices) {
                         giantComponent.removeVertex(vertex);
@@ -77,8 +77,9 @@ public class GraphMetrics {
                 double percentageOfVerticesInGiantComponent = (double) giantComponent.getVertexCount() / (double) graph.getVertexCount() * 100;
                 double percentageOfEdgesInGiantComponent = (double) giantComponent.getEdgeCount() / (double) graph.getEdgeCount() * 100;
                 //calculate
-                double smallWorldCoefOfGiantComponent = smallworld(giantComponent);
-                double diameterOfGiantComponent = DistanceStatistics.diameter(core);
+                double[] swkd = smallWorldKoefWithDiameter(giantComponent);
+                double smallWorldCoefOfGiantComponent = swkd[0];
+                double diameterOfGiantComponent = swkd[1];
                 double clusteringCoef = clusteingCoef(giantComponent);
                 StringBuilder sb = new StringBuilder();
                 sb.append(i).append(",")
@@ -161,26 +162,29 @@ public class GraphMetrics {
 
     private double clusteingCoef(UndirectedSparseGraph<Integer, String> graph) {
         Map<Integer, Double> clusteringCoefficients = Metrics.clusteringCoefficients(graph);
-        double sum = clusteringCoefficients.values().parallelStream().reduce(0.0, Double::sum);
+        double sum = clusteringCoefficients.values().stream().reduce(0.0, Double::sum);
         return sum / (double) graph.getVertexCount();
     }
 
-    private double smallworld(UndirectedSparseGraph<Integer, String> graph) {
+    private double[] smallWorldKoefWithDiameter(UndirectedSparseGraph<Integer, String> graph) {
         double sum = 0.0;
+        double diameter = 0.0;
         for (Integer vertex : graph.getVertices()) {
-            sum += calculateDistance(graph, vertex);
+            double[] res = calculateDistanceAndDiameter(graph, vertex);
+            sum += res[0];
+            if (res[1] > diameter)
+                diameter = res[1];
         }
-        return sum / ((double) graph.getVertexCount() * (graph.getVertexCount() - 1));
+        double smallworld = sum / ((double) graph.getVertexCount() * (graph.getVertexCount() - 1));
+        return new double[]{smallworld, diameter};
     }
 
-    private double calculateDistance(UndirectedSparseGraph<Integer, String> graph, Integer vertex) {
-        double distance = 0.0;
+    private double[] calculateDistanceAndDiameter(UndirectedSparseGraph<Integer, String> graph, Integer vertex) {
         UnweightedShortestPath<Integer, String> uwsp = new UnweightedShortestPath<>(graph);
         Map<Integer, Number> distanceMap = uwsp.getDistanceMap(vertex);
-        for (Map.Entry<Integer, Number> entry : distanceMap.entrySet()) {
-            distance += entry.getValue().doubleValue();
-        }
-        return distance;
+        double diameter = distanceMap.values().stream().mapToDouble(Number::doubleValue).max().orElse(-1.0);
+        double distance = distanceMap.values().stream().mapToDouble(Number::doubleValue).sum();
+        return new double[]{distance, diameter};
     }
 
 }

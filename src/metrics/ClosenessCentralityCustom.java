@@ -27,7 +27,7 @@ public class ClosenessCentralityCustom {
         for (Integer vertex : graph.getVertices()) {
             UnweightedShortestPath<Integer, String> udsp = new UnweightedShortestPath<>(graph);
             Map<Integer, Number> vertexDistances = udsp.getDistanceMap(vertex);
-            int distance = vertexDistances.values().parallelStream().mapToInt(Number::intValue).sum();
+            int distance = vertexDistances.values().stream().mapToInt(Number::intValue).sum();
             double closeness = (numOfVertices - 1) / (double) distance;
             closenessMap.put(vertex, closeness);
         }
