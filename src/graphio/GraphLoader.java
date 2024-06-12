@@ -10,16 +10,16 @@ import java.io.IOException;
 
 public class GraphLoader {
 
-    public UndirectedSparseGraph<Integer, String> loadErdos992Network() {
+    public UndirectedSparseGraph<Integer, String> loadAstroPh() {
         UndirectedSparseGraph<Integer, String> graph = new UndirectedSparseGraph<>();
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader("./data/ca-Erdos992.mtx"));
+            br = new BufferedReader(new FileReader("./data/CA-AstroPh.txt"));
             String line;
             while ((line = br.readLine()) != null) {
-                if (line.startsWith("%"))
+                if (line.startsWith("#"))
                     continue;
-                String[] vertices = line.split(" ");
+                String[] vertices = line.split("\t");
                 Integer from = Integer.parseInt(vertices[0]);
                 Integer to = Integer.parseInt(vertices[1]);
                 graph.addVertex(from);
@@ -34,16 +34,16 @@ public class GraphLoader {
         return graph;
     }
 
-    public UndirectedSparseGraph<Integer, String> loadGeneralRelativityColaboration() {
+    public UndirectedSparseGraph<Integer, String> loadDBLP() {
         UndirectedSparseGraph<Integer, String> graph = new UndirectedSparseGraph<>();
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader("./data/CA-GrQc.txt"));
+            br = new BufferedReader(new FileReader("./data/cit-DBLP.edges"));
             String line;
             while ((line = br.readLine()) != null) {
-                if (line.startsWith("#"))
+                if (line.startsWith("%"))
                     continue;
-                String[] vertices = line.split("\t");
+                String[] vertices = line.split(" ");
                 Integer from = Integer.parseInt(vertices[0]);
                 Integer to = Integer.parseInt(vertices[1]);
                 graph.addVertex(from);
