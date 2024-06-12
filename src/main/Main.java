@@ -8,13 +8,13 @@ import modelgen.ErdosRenyi;
 public class Main {
     public static void main(String[] args) {
 //        first network
-        long time = System.currentTimeMillis();
-        GraphLoader gl = new GraphLoader();
-        UndirectedSparseGraph<Integer, String> graph = gl.loadLastFMAsia();
-        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
-        GraphMetrics m = new GraphMetrics();
-        m.calculateMetrics(graph, "LastFmAsia");
-        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
+//        long time = System.currentTimeMillis();
+//        GraphLoader gl = new GraphLoader();
+//        UndirectedSparseGraph<Integer, String> graph = gl.loadLastFMAsia();
+//        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
+//        GraphMetrics m = new GraphMetrics();
+//        m.calculateMetrics(graph, "LastFmAsia");
+//        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
 //        erdosrenyi network
 //        long time = System.currentTimeMillis();
