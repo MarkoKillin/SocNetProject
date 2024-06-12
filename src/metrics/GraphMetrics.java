@@ -36,6 +36,7 @@ public class GraphMetrics {
         ClosenessCentralityCustom closenessCentrality = new ClosenessCentralityCustom(giantComponent);
         System.out.println("closeness done ---- ");
         EigenvectorCentrality<Integer, String> eigenvectorCentrality = new EigenvectorCentrality<>(giantComponent);
+        eigenvectorCentrality.acceptDisconnectedGraph(true);
         eigenvectorCentrality.evaluate();
         System.out.println("eigenvector done ---- ");
 
