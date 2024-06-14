@@ -113,11 +113,7 @@ public class CustomGraph {
         graph.addEdge("9 - 8", vertexList.get(9), vertexList.get(8), EdgeType.UNDIRECTED);
         graph.addEdge("6 - 3", vertexList.get(6), vertexList.get(3), EdgeType.UNDIRECTED);
         graph.addEdge("6 - 1", vertexList.get(6), vertexList.get(1), EdgeType.UNDIRECTED);
-        graph.addEdge("5 - 0", vertexList.get(5), vertexList.get(0), EdgeType.UNDIRECTED);
-        graph.addEdge("3 - 2", vertexList.get(3), vertexList.get(2), EdgeType.UNDIRECTED);
         graph.addEdge("3 - 1", vertexList.get(3), vertexList.get(1), EdgeType.UNDIRECTED);
-        graph.addEdge("3 - 0", vertexList.get(3), vertexList.get(0), EdgeType.UNDIRECTED);
-        graph.addEdge("1 - 0", vertexList.get(1), vertexList.get(0), EdgeType.UNDIRECTED);
         return graph;
     }
 }
