@@ -8,6 +8,7 @@ import metrics.GraphMetrics;
 import modelgen.BarabasiAlbert;
 import modelgen.CustomGraph;
 import modelgen.ErdosRenyi;
+import modelgen.PlantedPartition;
 
 public class Main {
     public static void main(String[] args) {
@@ -78,7 +79,16 @@ public class Main {
 //        UndirectedSparseGraph<Integer, String> graph = ba.generateBA();
 //        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
 //        GraphMetrics m = new GraphMetrics();
-//        m.calculateMetrics(graph, "BarabashiAlbert");
+//        m.calculateMetrics(graph, "BarabasiAlbert");
+//        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
+
+        //plantedpartition network
+//        long time = System.currentTimeMillis();
+//        PlantedPartition<Integer, String> pp = new PlantedPartition<>();
+//        UndirectedSparseGraph<Integer, String> graph = pp.generatePP();
+//        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
+//        GraphMetrics m = new GraphMetrics();
+//        m.calculateMetrics(graph, "PlantedPartition");
 //        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
     }
 }
