@@ -54,7 +54,6 @@ public class CustomGraph {
         graph.addEdge("16 - 5", vertexList.get(16), vertexList.get(5), EdgeType.UNDIRECTED);
         graph.addEdge("16 - 6", vertexList.get(16), vertexList.get(6), EdgeType.UNDIRECTED);
         graph.addEdge("16 - 10", vertexList.get(16), vertexList.get(10), EdgeType.UNDIRECTED);
-        graph.addEdge("16 - 12", vertexList.get(16), vertexList.get(12), EdgeType.UNDIRECTED);
         graph.addEdge("16 - 13", vertexList.get(16), vertexList.get(13), EdgeType.UNDIRECTED);
         graph.addEdge("14 - 0", vertexList.get(14), vertexList.get(0), EdgeType.UNDIRECTED);
         graph.addEdge("14 - 1", vertexList.get(14), vertexList.get(1), EdgeType.UNDIRECTED);
@@ -62,7 +61,6 @@ public class CustomGraph {
         graph.addEdge("13 - 12", vertexList.get(13), vertexList.get(12), EdgeType.UNDIRECTED);
         graph.addEdge("11 - 7", vertexList.get(11), vertexList.get(7), EdgeType.UNDIRECTED);
         graph.addEdge("10 - 9", vertexList.get(10), vertexList.get(9), EdgeType.UNDIRECTED);
-        graph.addEdge("9 - 8", vertexList.get(9), vertexList.get(8), EdgeType.UNDIRECTED);
         graph.addEdge("8 - 7", vertexList.get(8), vertexList.get(7), EdgeType.UNDIRECTED);
         graph.addEdge("7 - 6", vertexList.get(7), vertexList.get(6), EdgeType.UNDIRECTED);
         graph.addEdge("4 - 3", vertexList.get(4), vertexList.get(3), EdgeType.UNDIRECTED);
@@ -106,13 +104,11 @@ public class CustomGraph {
         graph.addEdge("14 - 13", vertexList.get(14), vertexList.get(13), EdgeType.UNDIRECTED);
         graph.addEdge("13 - 12", vertexList.get(13), vertexList.get(12), EdgeType.UNDIRECTED);
         graph.addEdge("12 - 9", vertexList.get(12), vertexList.get(9), EdgeType.UNDIRECTED);
-        graph.addEdge("12 - 7", vertexList.get(12), vertexList.get(7), EdgeType.UNDIRECTED);
         graph.addEdge("11 - 10", vertexList.get(11), vertexList.get(10), EdgeType.UNDIRECTED);
         graph.addEdge("10 - 8", vertexList.get(10), vertexList.get(8), EdgeType.UNDIRECTED);
         graph.addEdge("10 - 5", vertexList.get(10), vertexList.get(5), EdgeType.UNDIRECTED);
         graph.addEdge("10 - 4", vertexList.get(10), vertexList.get(4), EdgeType.UNDIRECTED);
         graph.addEdge("9 - 8", vertexList.get(9), vertexList.get(8), EdgeType.UNDIRECTED);
-        graph.addEdge("6 - 5", vertexList.get(6), vertexList.get(5), EdgeType.UNDIRECTED);
         graph.addEdge("6 - 3", vertexList.get(6), vertexList.get(3), EdgeType.UNDIRECTED);
         graph.addEdge("6 - 1", vertexList.get(6), vertexList.get(1), EdgeType.UNDIRECTED);
         graph.addEdge("5 - 0", vertexList.get(5), vertexList.get(0), EdgeType.UNDIRECTED);

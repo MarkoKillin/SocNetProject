@@ -30,7 +30,7 @@ public class Straightforward<V, E> {
         this.indecies = decompose();
     }
 
-    public Map<V, Integer> getIndecies() {
+    public Map<V, Integer> getShellIndecies() {
         return indecies;
     }
 
