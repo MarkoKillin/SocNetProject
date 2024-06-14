@@ -51,6 +51,8 @@ public class CustomGraph {
         graph.addEdge("15 - 11", vertexList.get(15), vertexList.get(11), EdgeType.UNDIRECTED);
         graph.addEdge("15 - 14", vertexList.get(15), vertexList.get(14), EdgeType.UNDIRECTED);
         graph.addEdge("15 - 16", vertexList.get(15), vertexList.get(16), EdgeType.UNDIRECTED);
+        graph.addEdge("15 - 7", vertexList.get(15), vertexList.get(7), EdgeType.UNDIRECTED);
+        graph.addEdge("16 - 7", vertexList.get(16), vertexList.get(7), EdgeType.UNDIRECTED);
         graph.addEdge("16 - 5", vertexList.get(16), vertexList.get(5), EdgeType.UNDIRECTED);
         graph.addEdge("16 - 6", vertexList.get(16), vertexList.get(6), EdgeType.UNDIRECTED);
         graph.addEdge("16 - 10", vertexList.get(16), vertexList.get(10), EdgeType.UNDIRECTED);
