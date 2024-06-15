@@ -46,14 +46,14 @@ public class Main {
 //        m.calculateMetrics(graph, "Physics");
 //        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
-        //third network not completed
-//        long time = System.currentTimeMillis();
-//        GraphLoader gl = new GraphLoader();
-//        UndirectedSparseGraph<Integer, String> graph = gl.loadAstroPh();
-//        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
-//        GraphMetrics m = new GraphMetrics();
-//        m.calculateMetrics(graph, "AstroPhysics");
-//        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
+        //third network
+        long time = System.currentTimeMillis();
+        GraphLoader gl = new GraphLoader();
+        UndirectedSparseGraph<Integer, String> graph = gl.loadAstroPh();
+        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
+        GraphMetrics m = new GraphMetrics();
+        m.calculateMetrics(graph, "AstroPhysics");
+        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
         //fourth network current
 //        long time = System.currentTimeMillis();
@@ -65,13 +65,13 @@ public class Main {
 //        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
         //erdos-renyi network
-        long time = System.currentTimeMillis();
-        ErdosRenyi<Integer, String> er = new ErdosRenyi<>();
-        UndirectedSparseGraph<Integer, String> graph = er.generateER(2000, 0.01, i -> i, s -> s);
-        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
-        GraphMetrics m = new GraphMetrics();
-        m.calculateMetrics(graph, "ErdosRenyi2k");
-        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
+//        long time = System.currentTimeMillis();
+//        ErdosRenyi<Integer, String> er = new ErdosRenyi<>();
+//        UndirectedSparseGraph<Integer, String> graph = er.generateER(2000, 0.01, i -> i, s -> s);
+//        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
+//        GraphMetrics m = new GraphMetrics();
+//        m.calculateMetrics(graph, "ErdosRenyi2k");
+//        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
         //barabasi-albert network
 //        long time = System.currentTimeMillis();
