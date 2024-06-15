@@ -25,30 +25,29 @@ import java.util.stream.Collectors;
 
 public class GraphMetrics {
     public void calculateMetrics(UndirectedSparseGraph<Integer, String> graph, String exportPath) {
-        UndirectedSparseGraph<Integer, String> giantComponent = new UndirectedSparseGraph<>();
+        UndirectedSparseGraph<Integer, String> safeGraph = new UndirectedSparseGraph<>();
         for (Integer v : graph.getVertices())
-            giantComponent.addVertex(v);
+            safeGraph.addVertex(v);
         for (String edge : graph.getEdges())
-            giantComponent.addEdge(edge, graph.getIncidentVertices(edge), EdgeType.UNDIRECTED);
+            safeGraph.addEdge(edge, graph.getIncidentVertices(edge), EdgeType.UNDIRECTED);
 
-        BetweennessCentrality<Integer, String> betweennessCentrality = new BetweennessCentrality<>(giantComponent);
+        BetweennessCentrality<Integer, String> betweennessCentrality = new BetweennessCentrality<>(safeGraph);
         System.out.println("betweenness done ---- ");
-        ClosenessCentralityCustom closenessCentrality = new ClosenessCentralityCustom(giantComponent);
+        ClosenessCentralityCustom closenessCentrality = new ClosenessCentralityCustom(safeGraph);
         System.out.println("closeness done ---- ");
-        EigenvectorCentrality<Integer, String> eigenvectorCentrality = new EigenvectorCentrality<>(giantComponent);
+        EigenvectorCentrality<Integer, String> eigenvectorCentrality = new EigenvectorCentrality<>(safeGraph);
         eigenvectorCentrality.acceptDisconnectedGraph(true);
         eigenvectorCentrality.evaluate();
         System.out.println("eigenvector done ---- ");
 
-        //called giantComponent, but it will become it
-        BatageljZaversnik<Integer, String> batageljZaversnik = new BatageljZaversnik<>(giantComponent);
+        BatageljZaversnik<Integer, String> batageljZaversnik = new BatageljZaversnik<>(safeGraph);
         Map<Integer, Integer> shellIndecies = batageljZaversnik.getShellIndecies();
 
-        exportDegreeDistribution(giantComponent, exportPath);
-        exportVertexMetrics(giantComponent, betweennessCentrality, closenessCentrality, eigenvectorCentrality, shellIndecies, exportPath);
+        exportDegreeDistribution(safeGraph, exportPath);
+        exportVertexMetrics(safeGraph, betweennessCentrality, closenessCentrality, eigenvectorCentrality, shellIndecies, exportPath);
 
         //calculating spearman corelations
-        double[] spearman = calculateSpearmanCorelations(giantComponent, batageljZaversnik.getShellIndecies(), betweennessCentrality,
+        double[] spearman = calculateSpearmanCorelations(safeGraph, batageljZaversnik.getShellIndecies(), betweennessCentrality,
                 closenessCentrality, eigenvectorCentrality);
         double spearmanShellDegree = spearman[0];
         double spearmanShellBetweenness = spearman[1];
@@ -61,26 +60,27 @@ public class GraphMetrics {
             pw.println(spearmanShellDegree + "," + spearmanShellBetweenness + "," + spearmanShellCloseness + "," + spearmanShellEigenvector);
             for (int i = 0; i < batageljZaversnik.getMaxShellIndex(); i++) {
                 UndirectedSparseGraph<Integer, String> core = batageljZaversnik.getCore(i);
-                WeakComponentClusterer<Integer, String> wcc = new WeakComponentClusterer<>();
-                Set<Set<Integer>> components = wcc.transform(core);
-                Set<Set<Integer>> toRemove = components.stream().sorted((x, y) -> y.size() - x.size()).skip(1).collect(Collectors.toSet());
-                for (Set<Integer> vertices : toRemove) {
-                    for (Integer vertex : vertices) {
-                        giantComponent.removeVertex(vertex);
-                    }
-                }
-                //giantComponent is now a giantComponent
+
                 int numberOfVertices = core.getVertexCount();
                 int numberOfEdges = core.getEdgeCount();
                 double graphDensity = ((double) numberOfEdges * 2) / ((double) numberOfVertices * (numberOfVertices - 1));
+
+                WeakComponentClusterer<Integer, String> wcc = new WeakComponentClusterer<>();
+                Set<Set<Integer>> components = wcc.transform(core);
                 int numOfConnectedComponents = components.size();
-                double percentageOfVerticesInGiantComponent = (double) giantComponent.getVertexCount() / (double) graph.getVertexCount() * 100;
-                double percentageOfEdgesInGiantComponent = (double) giantComponent.getEdgeCount() / (double) graph.getEdgeCount() * 100;
-                //calculate
-                double[] swkd = smallWorldKoefWithDiameter(giantComponent);
+                Set<Set<Integer>> toRemove = components.stream().sorted((x, y) -> y.size() - x.size()).skip(1).collect(Collectors.toSet());
+                for (Set<Integer> vertices : toRemove) {
+                    for (Integer vertex : vertices) {
+                        core.removeVertex(vertex);
+                    }
+                }
+
+                double percentageOfVerticesInGiantComponent = (double) core.getVertexCount() / (double) graph.getVertexCount() * 100;
+                double percentageOfEdgesInGiantComponent = (double) core.getEdgeCount() / (double) graph.getEdgeCount() * 100;
+                double[] swkd = smallWorldKoefWithDiameter(core);
                 double smallWorldCoefOfGiantComponent = swkd[0];
                 double diameterOfGiantComponent = swkd[1];
-                double clusteringCoef = clusteingCoef(giantComponent);
+                double clusteringCoef = clusteingCoef(core);
                 StringBuilder sb = new StringBuilder();
                 sb.append(i).append(",")
                         .append(numberOfVertices).append(",")
@@ -93,6 +93,7 @@ public class GraphMetrics {
                         .append(diameterOfGiantComponent).append(",")
                         .append(clusteringCoef).append(",");
                 pw.println(sb);
+                System.out.println("Shell " + i + " done.");
             }
         } catch (IOException e) {
             System.out.println("Error writing to file " + exportPath + ".csv");
