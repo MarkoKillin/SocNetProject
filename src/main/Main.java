@@ -46,14 +46,14 @@ public class Main {
         m1.calculateMetrics(graph, "PhysicsPhenomenology");
         System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
-        //third network
-        long time = System.currentTimeMillis();
-        GraphLoader gl = new GraphLoader();
-        UndirectedSparseGraph<Integer, String> graph = gl.loadAstroPh();
-        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
-        GraphMetrics m = new GraphMetrics();
-        m.calculateMetrics(graph, "AstroPhysics");
-        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
+        //third network home
+//        long time = System.currentTimeMillis();
+//        GraphLoader gl = new GraphLoader();
+//        UndirectedSparseGraph<Integer, String> graph = gl.loadAstroPh();
+//        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
+//        GraphMetrics m = new GraphMetrics();
+//        m.calculateMetrics(graph, "AstroPhysics");
+//        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
         //fourth network current
         time = System.currentTimeMillis();
