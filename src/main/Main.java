@@ -29,22 +29,22 @@ public class Main {
 
 
         //first network
-//        long time = System.currentTimeMillis();
-//        GraphLoader gl = new GraphLoader();
-//        UndirectedSparseGraph<Integer, String> graph = gl.loadLastFMAsia();
-//        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
-//        GraphMetrics m = new GraphMetrics();
-//        m.calculateMetrics(graph, "LastFmAsia");
-//        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
+        long time = System.currentTimeMillis();
+        GraphLoader gl = new GraphLoader();
+        GraphMetrics m = new GraphMetrics();
+        UndirectedSparseGraph<Integer, String> graph = gl.loadHighEnergyPhysicsTheory();
+        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
+        m.calculateMetrics(graph, "PhysicsTheory");
+        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
         //second network
-//        long time = System.currentTimeMillis();
+        time = System.currentTimeMillis();
 //        GraphLoader gl = new GraphLoader();
-//        UndirectedSparseGraph<Integer, String> graph = gl.loadHighEnergyPhysicsColaboration();
-//        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
-//        GraphMetrics m = new GraphMetrics();
-//        m.calculateMetrics(graph, "Physics");
-//        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
+        graph = gl.loadHighEnergyPhysicsPhenomenology();
+        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
+        GraphMetrics m1 = new GraphMetrics();
+        m1.calculateMetrics(graph, "PhysicsPhenomenology");
+        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
         //third network not completed
 //        long time = System.currentTimeMillis();
@@ -56,22 +56,22 @@ public class Main {
 //        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
         //fourth network current
-//        long time = System.currentTimeMillis();
+        time = System.currentTimeMillis();
 //        GraphLoader gl = new GraphLoader();
-//        UndirectedSparseGraph<Integer, String> graph = gl.loadDBLP();
-//        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
-//        GraphMetrics m = new GraphMetrics();
-//        m.calculateMetrics(graph, "DBLP");
-//        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
+        graph = gl.loadDBLP();
+        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
+        GraphMetrics m2 = new GraphMetrics();
+        m2.calculateMetrics(graph, "DBLP");
+        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
         //erdos-renyi network
-        long time = System.currentTimeMillis();
-        ErdosRenyi<Integer, String> er = new ErdosRenyi<>();
-        UndirectedSparseGraph<Integer, String> graph = er.generateER(2000, 0.01, i -> i, s -> s);
-        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
-        GraphMetrics m = new GraphMetrics();
-        m.calculateMetrics(graph, "ErdosRenyi2k");
-        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
+//        long time = System.currentTimeMillis();
+//        ErdosRenyi<Integer, String> er = new ErdosRenyi<>();
+//        UndirectedSparseGraph<Integer, String> graph = er.generateER(2000, 0.01, i -> i, s -> s);
+//        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
+//        GraphMetrics m = new GraphMetrics();
+//        m.calculateMetrics(graph, "ErdosRenyi2k");
+//        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
         //barabasi-albert network
 //        long time = System.currentTimeMillis();

@@ -58,7 +58,7 @@ public class GraphLoader {
         return graph;
     }
 
-    public UndirectedSparseGraph<Integer, String> loadHighEnergyPhysicsColaboration() {
+    public UndirectedSparseGraph<Integer, String> loadHighEnergyPhysicsTheory() {
         UndirectedSparseGraph<Integer, String> graph = new UndirectedSparseGraph<>();
         BufferedReader br = null;
         try {
@@ -82,16 +82,16 @@ public class GraphLoader {
         return graph;
     }
 
-    public UndirectedSparseGraph<Integer, String> loadLastFMAsia() {
+    public UndirectedSparseGraph<Integer, String> loadHighEnergyPhysicsPhenomenology() {
         UndirectedSparseGraph<Integer, String> graph = new UndirectedSparseGraph<>();
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader("./data/lastfm_asia_edges.csv"));
+            br = new BufferedReader(new FileReader("./data/CA-HepPh.txt"));
             String line;
             while ((line = br.readLine()) != null) {
-                if (line.startsWith("node"))
+                if (line.startsWith("#"))
                     continue;
-                String[] vertices = line.split(",");
+                String[] vertices = line.split("\t");
                 Integer from = Integer.parseInt(vertices[0]);
                 Integer to = Integer.parseInt(vertices[1]);
                 graph.addVertex(from);
