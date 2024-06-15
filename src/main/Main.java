@@ -65,13 +65,13 @@ public class Main {
 //        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
         //erdos-renyi network
-//        long time = System.currentTimeMillis();
-//        ErdosRenyi<Integer, String> er = new ErdosRenyi<>();
-//        UndirectedSparseGraph<Integer, String> graph = er.generateER(5000, 0.001, i -> i, s -> s);
-//        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
-//        GraphMetrics m = new GraphMetrics();
-//        m.calculateMetrics(graph, "ErdosRenyi5k");
-//        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
+        long time = System.currentTimeMillis();
+        ErdosRenyi<Integer, String> er = new ErdosRenyi<>();
+        UndirectedSparseGraph<Integer, String> graph = er.generateER(3000, 0.01, i -> i, s -> s);
+        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
+        GraphMetrics m = new GraphMetrics();
+        m.calculateMetrics(graph, "ErdosRenyi3k");
+        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
         //barabasi-albert network
 //        long time = System.currentTimeMillis();
@@ -79,7 +79,7 @@ public class Main {
 //        UndirectedSparseGraph<Integer, String> graph = ba.generateBA();
 //        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
 //        GraphMetrics m = new GraphMetrics();
-//        m.calculateMetrics(graph, "BarabasiAlbert");
+//        m.calculateMetrics(graph, "BarabasiAlbert3k");
 //        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
         //plantedpartition network

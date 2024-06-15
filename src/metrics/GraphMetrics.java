@@ -162,7 +162,10 @@ public class GraphMetrics {
 
     private double clusteingCoef(UndirectedSparseGraph<Integer, String> graph) {
         Map<Integer, Double> clusteringCoefficients = Metrics.clusteringCoefficients(graph);
-        double sum = clusteringCoefficients.values().stream().reduce(0.0, Double::sum);
+        double sum = 0.0;
+        for (Double value : clusteringCoefficients.values()) {
+            sum += value;
+        }
         return sum / (double) graph.getVertexCount();
     }
 
@@ -183,7 +186,11 @@ public class GraphMetrics {
         UnweightedShortestPath<Integer, String> uwsp = new UnweightedShortestPath<>(graph);
         Map<Integer, Number> distanceMap = uwsp.getDistanceMap(vertex);
         double diameter = distanceMap.values().stream().mapToDouble(Number::doubleValue).max().orElse(-1.0);
-        double distance = distanceMap.values().stream().mapToDouble(Number::doubleValue).sum();
+        //umestio sum streama, koristim for petlju jer stream iz nekog razloga ne radi dobro
+        double distance = 0.0;
+        for (Number value : distanceMap.values()) {
+            distance += value.doubleValue();
+        }
         return new double[]{distance, diameter};
     }
 
