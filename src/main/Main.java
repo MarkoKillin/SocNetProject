@@ -29,54 +29,72 @@ public class Main {
 
 
         //first network
-        long time = System.currentTimeMillis();
-        GraphLoader gl = new GraphLoader();
-        GraphMetrics m = new GraphMetrics();
-        UndirectedSparseGraph<Integer, String> graph = gl.loadHighEnergyPhysicsTheory();
-        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
-        m.calculateMetrics(graph, "PhysicsTheory");
-        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
-
-        //second network
-        time = System.currentTimeMillis();
-//        GraphLoader gl = new GraphLoader();
-        graph = gl.loadHighEnergyPhysicsPhenomenology();
-        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
-        GraphMetrics m1 = new GraphMetrics();
-        m1.calculateMetrics(graph, "PhysicsPhenomenology");
-        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
-
-        //third network home
 //        long time = System.currentTimeMillis();
 //        GraphLoader gl = new GraphLoader();
-//        UndirectedSparseGraph<Integer, String> graph = gl.loadAstroPh();
-//        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
 //        GraphMetrics m = new GraphMetrics();
-//        m.calculateMetrics(graph, "AstroPhysics");
+//        UndirectedSparseGraph<Integer, String> graph = gl.loadFacebookPages();
+//        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
+//        m.calculateMetrics(graph, "FacebookPages");
 //        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
-        //fourth network current
-        time = System.currentTimeMillis();
+        //second network
+//        long time = System.currentTimeMillis();
 //        GraphLoader gl = new GraphLoader();
-        graph = gl.loadDBLP();
+//        GraphMetrics m = new GraphMetrics();
+//        UndirectedSparseGraph<Integer, String> graph = gl.loadHepPh();
+//        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
+//        m.calculateMetrics(graph, "HepPh");
+//        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
+
+        //third network home
+        long time = System.currentTimeMillis();
+        GraphLoader gl = new GraphLoader();
+        UndirectedSparseGraph<Integer, String> graph = gl.loadAstroPh();
         System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
-        GraphMetrics m2 = new GraphMetrics();
-        m2.calculateMetrics(graph, "DBLP");
+        GraphMetrics m = new GraphMetrics();
+        m.calculateMetrics(graph, "AstroPhysics");
         System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
+
+        //fourth network
+//        time = System.currentTimeMillis();
+//        GraphLoader gl = new GraphLoader();
+//        graph = gl.loadDBLP();
+//        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
+//        GraphMetrics m2 = new GraphMetrics();
+//        m2.calculateMetrics(graph, "DBLP");
+//        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
+
+        //fifth network
+//        long time = System.currentTimeMillis();
+//        GraphLoader gl = new GraphLoader();
+//        graph = gl.loadEpinions();
+//        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
+//        GraphMetrics m2 = new GraphMetrics();
+//        m2.calculateMetrics(graph, "Epinions");
+//        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
+
+        //sixth network
+//        time = System.currentTimeMillis();
+//        GraphLoader gl = new GraphLoader();
+//        graph = gl.loadGemsec();
+//        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
+//        GraphMetrics m2 = new GraphMetrics();
+//        m2.calculateMetrics(graph, "Gemsec");
+//        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
         //erdos-renyi network
 //        long time = System.currentTimeMillis();
 //        ErdosRenyi<Integer, String> er = new ErdosRenyi<>();
-//        UndirectedSparseGraph<Integer, String> graph = er.generateER(2000, 0.01, i -> i, s -> s);
+//        UndirectedSparseGraph<Integer, String> graph = er.generateER(3000, 0.01, i -> i, s -> s);
 //        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
 //        GraphMetrics m = new GraphMetrics();
-//        m.calculateMetrics(graph, "ErdosRenyi2k");
+//        m.calculateMetrics(graph, "ErdosRenyi3k");
 //        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
         //barabasi-albert network
 //        long time = System.currentTimeMillis();
 //        BarabasiAlbert<Integer, String> ba = new BarabasiAlbert<>();
-//        UndirectedSparseGraph<Integer, String> graph = ba.generateBA();
+//        UndirectedSparseGraph<Integer, String> graph = ba.generateBA(3000, 30, 0.01, 10, i -> i, e -> e);
 //        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
 //        GraphMetrics m = new GraphMetrics();
 //        m.calculateMetrics(graph, "BarabasiAlbert3k");
@@ -85,7 +103,8 @@ public class Main {
         //plantedpartition network
 //        long time = System.currentTimeMillis();
 //        PlantedPartition<Integer, String> pp = new PlantedPartition<>();
-//        UndirectedSparseGraph<Integer, String> graph = pp.generatePP();
+//        UndirectedSparseGraph<Integer, String> graph = pp.generatePP(3000, 0.9, 0.02,
+//                0.001, 0.005, i -> i, s -> s);
 //        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
 //        GraphMetrics m = new GraphMetrics();
 //        m.calculateMetrics(graph, "PlantedPartition");

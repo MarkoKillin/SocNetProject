@@ -16,28 +16,25 @@ public class BarabasiAlbert<V, E> {
         ErdosRenyi<V, E> er = new ErdosRenyi<>();
         UndirectedSparseGraph<V, E> graph = er.generateER(m0, p, vTransformer, eTransformer);
 
-        List<Integer> degs = new ArrayList<>();
-        int ix = 0;
+        List<V> degs = new ArrayList<>();
         for (V vertex : graph.getVertices()) {
             for (int j = 0; j < graph.degree(vertex); j++) {
-                degs.add(ix);
+                degs.add(vertex);
             }
-            ix++;
         }
+
         for (int i = m0; i < n; i++) {
             V vertex = vTransformer.transform(i);
             graph.addVertex(vertex);
-            Object[] vertices = graph.getVertices().toArray();
             for (int j = 0; j < m; j++) {
                 int old = (int) (Math.random() * degs.size());
-                V from = (V) vertices[i];
-                V to = (V) vertices[old];
-                E edge = eTransformer.transform(from + " - " + to);
-                graph.addEdge(edge, from, to, EdgeType.UNDIRECTED);
-                degs.add(old);
+                V to = degs.get(old);
+                E edge = eTransformer.transform(vertex + " - " + to);
+                graph.addEdge(edge, vertex, to, EdgeType.UNDIRECTED);
+                degs.add(to);
             }
             for (int j = 0; j < m; j++) {
-                degs.add(i);
+                degs.add(vertex);
             }
         }
         return graph;

@@ -22,7 +22,7 @@ public class PlantedPartition<V, E> {
         }
         int numOfPeripheryNodes = n - numOfCoreNodes;
         List<V> peripheryVertices = new ArrayList<>(numOfPeripheryNodes);
-        for (int i = 0; i < numOfPeripheryNodes; i++) {
+        for (int i = numOfCoreNodes; i < n; i++) {
             V vertex = vTransformer.transform(i);
             peripheryVertices.add(vertex);
             graph.addVertex(vertex);

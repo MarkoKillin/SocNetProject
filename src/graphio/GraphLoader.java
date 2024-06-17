@@ -58,11 +58,35 @@ public class GraphLoader {
         return graph;
     }
 
-    public UndirectedSparseGraph<Integer, String> loadHighEnergyPhysicsTheory() {
+    public UndirectedSparseGraph<Integer, String> loadFacebookPages() {
         UndirectedSparseGraph<Integer, String> graph = new UndirectedSparseGraph<>();
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader("./data/CA-HepTh.txt"));
+            br = new BufferedReader(new FileReader("./data/fb-pages-public-figure.edges"));
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.startsWith("%"))
+                    continue;
+                String[] vertices = line.split(",");
+                Integer from = Integer.parseInt(vertices[0]);
+                Integer to = Integer.parseInt(vertices[1]);
+                graph.addVertex(from);
+                graph.addVertex(to);
+                graph.addEdge(from + " - " + to, from, to, EdgeType.UNDIRECTED);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        } catch (IOException e) {
+            System.out.println("Error reading file");
+        }
+        return graph;
+    }
+
+    public UndirectedSparseGraph<Integer, String> loadHepPh() {
+        UndirectedSparseGraph<Integer, String> graph = new UndirectedSparseGraph<>();
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader("./data/CA-HepPh.txt"));
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.startsWith("#"))
@@ -82,16 +106,40 @@ public class GraphLoader {
         return graph;
     }
 
-    public UndirectedSparseGraph<Integer, String> loadHighEnergyPhysicsPhenomenology() {
+    public UndirectedSparseGraph<Integer, String> loadEpinions() {
         UndirectedSparseGraph<Integer, String> graph = new UndirectedSparseGraph<>();
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader("./data/CA-HepPh.txt"));
+            br = new BufferedReader(new FileReader("./data/soc-epinions.mtx"));
             String line;
             while ((line = br.readLine()) != null) {
-                if (line.startsWith("#"))
+                if (line.startsWith("%"))
                     continue;
-                String[] vertices = line.split("\t");
+                String[] vertices = line.split(" ");
+                Integer from = Integer.parseInt(vertices[0]);
+                Integer to = Integer.parseInt(vertices[1]);
+                graph.addVertex(from);
+                graph.addVertex(to);
+                graph.addEdge(from + " - " + to, from, to, EdgeType.UNDIRECTED);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        } catch (IOException e) {
+            System.out.println("Error reading file");
+        }
+        return graph;
+    }
+
+    public UndirectedSparseGraph<Integer, String> loadGemsec() {
+        UndirectedSparseGraph<Integer, String> graph = new UndirectedSparseGraph<>();
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader("./data/soc-gemsec-RO.edges"));
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.startsWith("%"))
+                    continue;
+                String[] vertices = line.split(",");
                 Integer from = Integer.parseInt(vertices[0]);
                 Integer to = Integer.parseInt(vertices[1]);
                 graph.addVertex(from);
