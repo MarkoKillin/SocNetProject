@@ -27,6 +27,18 @@ public class Main {
 //        dm.exportDecompositionAsCSV(cg3, "customgraph3");
 //        System.out.println("Exported.");
 
+        DecompositionMetrics metrics = new DecompositionMetrics();
+        ErdosRenyi<Integer, String> er = new ErdosRenyi<>();
+        BarabasiAlbert<Integer, String> ba = new BarabasiAlbert<>();
+        PlantedPartition<Integer, String> pp = new PlantedPartition<>();
+        UndirectedSparseGraph<Integer, String> graphErdos = er.generateER(3000, 0.01, i -> i, s -> s);
+        UndirectedSparseGraph<Integer, String> graphBarabasi = ba.generateBA(3000, 30, 0.01, 10, i -> i, e -> e);
+        UndirectedSparseGraph<Integer, String> graphPlanted = pp.generatePP(3000, 0.9, 0.02,
+                0.001, 0.005, i -> i, s -> s);
+        metrics.exportDecompositionAsCSV(graphErdos, "Erdos-Renyi");
+        metrics.exportDecompositionAsCSV(graphBarabasi, "Barabasi-Albert");
+        metrics.exportDecompositionAsCSV(graphPlanted, "PlantedPartition");
+
 
         //first network
 //        long time = System.currentTimeMillis();
@@ -47,13 +59,13 @@ public class Main {
 //        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
         //third network home
-        long time = System.currentTimeMillis();
-        GraphLoader gl = new GraphLoader();
-        UndirectedSparseGraph<Integer, String> graph = gl.loadAstroPh();
-        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
-        GraphMetrics m = new GraphMetrics();
-        m.calculateMetrics(graph, "AstroPhysics");
-        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
+//        long time = System.currentTimeMillis();
+//        GraphLoader gl = new GraphLoader();
+//        UndirectedSparseGraph<Integer, String> graph = gl.loadAstroPh();
+//        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
+//        GraphMetrics m = new GraphMetrics();
+//        m.calculateMetrics(graph, "AstroPhysics");
+//        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
         //fourth network
 //        time = System.currentTimeMillis();
@@ -82,7 +94,7 @@ public class Main {
 //        m2.calculateMetrics(graph, "Gemsec");
 //        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
-        //erdos-renyi network
+        //erdos-renyi network just for testing and some graphics
 //        long time = System.currentTimeMillis();
 //        ErdosRenyi<Integer, String> er = new ErdosRenyi<>();
 //        UndirectedSparseGraph<Integer, String> graph = er.generateER(3000, 0.01, i -> i, s -> s);
@@ -91,7 +103,7 @@ public class Main {
 //        m.calculateMetrics(graph, "ErdosRenyi3k");
 //        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
-        //barabasi-albert network
+        //barabasi-albert network just for testing and some graphics
 //        long time = System.currentTimeMillis();
 //        BarabasiAlbert<Integer, String> ba = new BarabasiAlbert<>();
 //        UndirectedSparseGraph<Integer, String> graph = ba.generateBA(3000, 30, 0.01, 10, i -> i, e -> e);
@@ -100,7 +112,7 @@ public class Main {
 //        m.calculateMetrics(graph, "BarabasiAlbert3k");
 //        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
-        //plantedpartition network
+        //plantedpartition network just for testing and some graphics
 //        long time = System.currentTimeMillis();
 //        PlantedPartition<Integer, String> pp = new PlantedPartition<>();
 //        UndirectedSparseGraph<Integer, String> graph = pp.generatePP(3000, 0.9, 0.02,
