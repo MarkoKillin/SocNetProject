@@ -18,16 +18,16 @@ public class Main {
         CustomGraph cgraph = new CustomGraph();
         GraphExporter graphexp = new GraphExporter();
         DecompositionMetrics dm = new DecompositionMetrics();
-//        UndirectedSparseGraph<Integer, String> cg1 = cgraph.getGraph1();
-//        UndirectedSparseGraph<Integer, String> cg2 = cgraph.getGraph2();
-//        UndirectedSparseGraph<Integer, String> cg3 = cgraph.getGraph3();
-//        graphexp.exportGraphAsCSV(cg1, "customgraph1");
-//        graphexp.exportGraphAsCSV(cg2, "customgraph2");
-//        graphexp.exportGraphAsCSV(cg3, "customgraph3");
-//        dm.exportDecompositionAsCSV(cg1, "customgraph1");
-//        dm.exportDecompositionAsCSV(cg2, "customgraph2");
-//        dm.exportDecompositionAsCSV(cg3, "customgraph3");
-//        System.out.println("Exported.");
+        UndirectedSparseGraph<Integer, String> cg1 = cgraph.getGraph1();
+        UndirectedSparseGraph<Integer, String> cg2 = cgraph.getGraph2();
+        UndirectedSparseGraph<Integer, String> cg3 = cgraph.getGraph3();
+        graphexp.exportGraphAsCSV(cg1, "customgraph1");
+        graphexp.exportGraphAsCSV(cg2, "customgraph2");
+        graphexp.exportGraphAsCSV(cg3, "customgraph3");
+        dm.exportDecompositionAsCSV(cg1, "customgraph1");
+        dm.exportDecompositionAsCSV(cg2, "customgraph2");
+        dm.exportDecompositionAsCSV(cg3, "customgraph3");
+        System.out.println("Exported.");
 
         //comparing Batagelj-Zaversnik and Straighforward on artificial networks
         ErdosRenyi<Integer, String> er = new ErdosRenyi<>();
@@ -45,42 +45,42 @@ public class Main {
         System.out.println("PlantedPartition done.");
 
 
-        //first network
+        //first network 4.2 on report
         long time = System.currentTimeMillis();
         UndirectedSparseGraph<Integer, String> graphFacebook = gl.loadFacebookPages();
         System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
         m.calculateMetrics(graphFacebook, "FacebookPages");
         System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
-        //second network
+        //second network 4.3 on report
         time = System.currentTimeMillis();
         UndirectedSparseGraph<Integer, String> graphHepPh = gl.loadHepPh();
         System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
         m.calculateMetrics(graphHepPh, "HepPh");
         System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
-        //third network home
+        //third network 4.1 on report
         time = System.currentTimeMillis();
         UndirectedSparseGraph<Integer, String> graphAstroPh = gl.loadAstroPh();
         System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
         m.calculateMetrics(graphAstroPh, "AstroPhysics");
         System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
-        //fourth network
-        time = System.currentTimeMillis();
-        UndirectedSparseGraph<Integer, String> graphDBLP = gl.loadDBLP();
-        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
-        m.calculateMetrics(graphDBLP, "DBLP");
-        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
+        //fourth network not on report
+//        time = System.currentTimeMillis();
+//        UndirectedSparseGraph<Integer, String> graphDBLP = gl.loadDBLP();
+//        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
+//        m.calculateMetrics(graphDBLP, "DBLP");
+//        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
-        //fifth network
-        time = System.currentTimeMillis();
-        UndirectedSparseGraph<Integer, String> graphEpinions = gl.loadEpinions();
-        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
-        m.calculateMetrics(graphEpinions, "Epinions");
-        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
+        //fifth network not on report
+//        time = System.currentTimeMillis();
+//        UndirectedSparseGraph<Integer, String> graphEpinions = gl.loadEpinions();
+//        System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
+//        m.calculateMetrics(graphEpinions, "Epinions");
+//        System.out.println("done in ---- " + (System.currentTimeMillis() - time)/1000.0);
 
-        //sixth network
+        //sixth network 4.4 on report
         time = System.currentTimeMillis();
         UndirectedSparseGraph<Integer, String> graphGemsec = gl.loadGemsec();
         System.out.println("generated in ---- " + (System.currentTimeMillis() - time)/1000.0);
