@@ -36,8 +36,11 @@ public class Main {
         UndirectedSparseGraph<Integer, String> graphPlanted = pp.generatePP(3000, 0.9, 0.02,
                 0.001, 0.005, i -> i, s -> s);
         metrics.exportDecompositionAsCSV(graphErdos, "Erdos-Renyi");
+        System.out.println("Erdos-Renyi done.");
         metrics.exportDecompositionAsCSV(graphBarabasi, "Barabasi-Albert");
+        System.out.println("Barabasi-Albert done.");
         metrics.exportDecompositionAsCSV(graphPlanted, "PlantedPartition");
+        System.out.println("PlantedPartition done.");
 
 
         //first network
